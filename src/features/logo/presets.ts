@@ -33,14 +33,22 @@ import {
   type ClayIconName,
 } from '@/components/illustrations';
 
+/** Colour overrides; null keeps the preset's own colours. */
+export interface PresetColors {
+  /** The mark itself (flat logo, or the glyph on a badge). */
+  color?: string | null;
+  /** The badge background (brands only). */
+  badgeColor?: string | null;
+}
+
 export interface LogoPreset {
   id: string;
   label: string;
   group: 'icon' | 'brand';
   /** Brand colour; icons are multicolour and ignore it. */
   defaultColor: string;
-  /** SVG markup; `plain` returns the bare brand mark instead of a badge. */
-  toSvg: (color: string, plain: boolean) => string;
+  /** SVG markup for the given colours; `plain` returns the bare brand mark instead of a badge. */
+  toSvg: (options: Required<PresetColors> & { plain: boolean }) => string;
 }
 
 const ICONS: ReadonlyArray<[id: string, label: string, art: ClayIconName]> = [
@@ -71,10 +79,10 @@ const brandPreset = (icon: SimpleIcon, label = icon.title): LogoPreset => ({
   label,
   group: 'brand',
   defaultColor: `#${icon.hex}`,
-  toSvg: (color, plain) =>
+  toSvg: ({ color, badgeColor, plain }) =>
     plain
-      ? `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="${color}" d="${icon.path}"/></svg>`
-      : brandBadgeSvg(icon.path, color),
+      ? `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="${color ?? `#${icon.hex}`}" d="${icon.path}"/></svg>`
+      : brandBadgeSvg(icon.path, badgeColor ?? `#${icon.hex}`, color ?? undefined),
 });
 
 export const LOGO_PRESETS: readonly LogoPreset[] = [
@@ -110,6 +118,10 @@ export function findLogoPreset(id: string): LogoPreset | undefined {
 }
 
 /** Data URL for a preset, optionally recoloured and, for brands, without the badge. */
-export function presetDataUrl(preset: LogoPreset, color: string | null, plain = false): string {
-  return svgToDataUrl(preset.toSvg(color ?? preset.defaultColor, plain));
+export function presetDataUrl(
+  preset: LogoPreset,
+  { color = null, badgeColor = null }: PresetColors = {},
+  plain = false,
+): string {
+  return svgToDataUrl(preset.toSvg({ color, badgeColor, plain }));
 }

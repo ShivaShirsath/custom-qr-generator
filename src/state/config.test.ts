@@ -43,7 +43,7 @@ describe('default configuration', () => {
     expect(DEFAULT_CONFIG.content.type).toBe('url');
     expect(design.dots.paint).toMatchObject({ type: 'linear', rotation: 45 });
     expect(design.background.transparent).toBe(true);
-    expect(logo).toEqual({ kind: 'preset', id: 'icon:link', color: null });
+    expect(logo).toEqual({ kind: 'preset', id: 'icon:link', color: null, badgeColor: null });
     expect(design.logo).toMatchObject(LOGO_PLACEMENT);
     expect(DEFAULT_CONFIG.flatBrands).toBe(true);
   });

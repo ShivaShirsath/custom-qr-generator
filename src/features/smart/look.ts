@@ -37,12 +37,12 @@ export function buildLook(
   if (!preset) return null;
   const accent = scannableColor(suggestion.color ?? preset.defaultColor);
   const deep = mix(accent, 0, 0.4);
-  const src = presetDataUrl(preset, null, preset.group === 'brand' && flatBrands);
+  const src = presetDataUrl(preset, {}, preset.group === 'brand' && flatBrands);
   const level = design.errorCorrection;
   const firstLogo = design.logo.src === null;
   return {
     src,
-    logo: { kind: 'preset', id: preset.id, color: null },
+    logo: { kind: 'preset', id: preset.id, color: null, badgeColor: null },
     design: {
       ...design,
       errorCorrection: level === 'L' || level === 'M' ? 'H' : level,

@@ -2,6 +2,7 @@ import { ImagePlus, Trash2 } from 'lucide-react';
 import { useMemo, useRef, useState, type DragEvent } from 'react';
 
 import { useToast } from '@/components/feedback';
+import { badgeGlyphColor } from '@/components/illustrations';
 import { LOGO_SHAPES, type QrDesign } from '@/core/qr';
 import {
   Button,
@@ -19,7 +20,13 @@ import { cx } from '@/lib/cx';
 import { useConfig } from '@/state';
 
 import styles from './Logo.module.css';
-import { LOGO_PRESETS, findLogoPreset, presetDataUrl, type LogoPreset } from './presets';
+import {
+  LOGO_PRESETS,
+  findLogoPreset,
+  presetDataUrl,
+  type LogoPreset,
+  type PresetColors,
+} from './presets';
 import { ACCEPT_ATTR, prepareLogo } from './upload';
 
 function presetOptions(group: LogoPreset['group'], flat = false) {
@@ -27,12 +34,7 @@ function presetOptions(group: LogoPreset['group'], flat = false) {
     value: p.id,
     label: p.label,
     preview: (
-      <img
-        className={styles.logoTile}
-        src={presetDataUrl(p, null, flat)}
-        alt=""
-        draggable={false}
-      />
+      <img className={styles.logoTile} src={presetDataUrl(p, {}, flat)} alt="" draggable={false} />
     ),
   }));
 }
@@ -55,13 +57,15 @@ export function LogoPanel() {
   const update = (patch: Partial<QrDesign['logo']>) =>
     dispatch({ type: 'design/update', update: (d) => ({ ...d, logo: { ...d.logo, ...patch } }) });
 
-  const pickPreset = (id: string, color: string | null = null) => {
+  const pickPreset = (id: string, colors: PresetColors = {}) => {
     const preset = findLogoPreset(id);
     if (!preset) return;
+    const color = colors.color ?? null;
+    const badgeColor = colors.badgeColor ?? null;
     dispatch({
       type: 'logo/set',
-      selection: { kind: 'preset', id, color },
-      src: presetDataUrl(preset, color, preset.group === 'brand' && flatBrands),
+      selection: { kind: 'preset', id, color, badgeColor },
+      src: presetDataUrl(preset, { color, badgeColor }, preset.group === 'brand' && flatBrands),
     });
   };
 
@@ -72,7 +76,7 @@ export function LogoPanel() {
       flat,
       src:
         current?.group === 'brand' && selection.kind === 'preset'
-          ? presetDataUrl(current, selection.color, flat)
+          ? presetDataUrl(current, selection, flat)
           : undefined,
     });
   };
@@ -226,11 +230,25 @@ export function LogoPanel() {
               onChange={setFlatBrands}
             />
             {preset?.group === 'brand' && selection.kind === 'preset' && (
-              <ColorField
-                label={flatBrands ? 'Logo colour' : 'Badge colour'}
-                value={selection.color ?? preset.defaultColor}
-                onChange={(color) => pickPreset(preset.id, color)}
-              />
+              <>
+                {!flatBrands && (
+                  <ColorField
+                    label="Badge colour"
+                    value={selection.badgeColor ?? preset.defaultColor}
+                    onChange={(badgeColor) => pickPreset(preset.id, { ...selection, badgeColor })}
+                  />
+                )}
+                <ColorField
+                  label="Logo colour"
+                  value={
+                    selection.color ??
+                    (flatBrands
+                      ? preset.defaultColor
+                      : badgeGlyphColor(selection.badgeColor ?? preset.defaultColor))
+                  }
+                  onChange={(color) => pickPreset(preset.id, { ...selection, color })}
+                />
+              </>
             )}
           </div>
         )}

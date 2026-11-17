@@ -144,14 +144,19 @@ function mix(hex: string, target: number, amount: number): string {
   return `#${ch(r)}${ch(g)}${ch(b)}`;
 }
 
+/** Default mark colour on a badge: white, or near-black on very light badges. */
+export function badgeGlyphColor(badge: string): string {
+  return readableTextColor(badge) === '#000000' ? '#1b1b1b' : '#ffffff';
+}
+
 /**
  * A glossy clay badge: the brand mark in white (or black on very light colours) on a
  * rounded square filled with the brand colour.
  */
-export function brandBadgeSvg(path: string, color: string): string {
+export function brandBadgeSvg(path: string, color: string, glyphColor?: string): string {
   const top = mix(color, 255, 0.28);
   const bottom = mix(color, 0, 0.12);
-  const glyph = readableTextColor(color) === '#000000' ? '#1b1b1b' : '#ffffff';
+  const glyph = glyphColor ?? badgeGlyphColor(color);
   return (
     '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">' +
     '<defs>' +

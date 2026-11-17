@@ -1,5 +1,6 @@
 export { ClayIcon } from './ClayIcon';
 export {
+  badgeGlyphColor,
   brandBadgeSvg,
   clayIconSvg,
   clayIconUrl,

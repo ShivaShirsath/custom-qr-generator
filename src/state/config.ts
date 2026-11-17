@@ -32,7 +32,7 @@ function defaultDesign(): QrDesign {
     ...styled,
     errorCorrection: 'H',
     background: { ...styled.background, transparent: true },
-    logo: { ...styled.logo, ...LOGO_PLACEMENT, src: link ? presetDataUrl(link, null) : null },
+    logo: { ...styled.logo, ...LOGO_PLACEMENT, src: link ? presetDataUrl(link) : null },
   };
 }
 
@@ -40,7 +40,7 @@ function defaultDesign(): QrDesign {
 export const DEFAULT_CONFIG: AppConfig = {
   content: DEFAULT_CONTENT,
   design: defaultDesign(),
-  logo: { kind: 'preset', id: DEFAULT_LOGO_ID, color: null },
+  logo: { kind: 'preset', id: DEFAULT_LOGO_ID, color: null, badgeColor: null },
   flatBrands: true,
   autoStyle: true,
   exportSettings: { format: 'png', size: 1024, fileName: 'qr-code' },
@@ -123,7 +123,8 @@ function hydrateLogo(input: unknown, hasSrc: boolean): LogoSelection {
   if (!hasSrc || typeof input !== 'object' || input === null) return { kind: 'none' };
   const v = input as Record<string, unknown>;
   if (v.kind === 'preset' && typeof v.id === 'string') {
-    return { kind: 'preset', id: v.id, color: typeof v.color === 'string' ? v.color : null };
+    const hex = (x: unknown) => (typeof x === 'string' ? x : null);
+    return { kind: 'preset', id: v.id, color: hex(v.color), badgeColor: hex(v.badgeColor) };
   }
   if (v.kind === 'upload') return { kind: 'upload', name: String(v.name ?? 'logo') };
   return { kind: 'none' };
