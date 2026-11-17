@@ -21,6 +21,8 @@ interface Layout {
   /** Side of the quiet-zone box (code + 2 × margin). */
   qrSide: number;
   frame: string;
+  /** Corner radius shared by the frame and the background, or null without a frame. */
+  cornerRadius: number | null;
 }
 
 function textElement(
@@ -44,9 +46,18 @@ function textElement(
   );
 }
 
-function computeLayout(qrSide: number, frame: QrDesign['frame']): Layout {
+/**
+ * Lays out the code and its frame. Framed codes use one corner radius for the frame and the
+ * background: the background corner setting when set, otherwise a soft default.
+ */
+function computeLayout(qrSide: number, frame: QrDesign['frame'], radiusPercent: number): Layout {
   const color = safeColor(frame.color, '#000000');
   const textColor = safeColor(frame.textColor, readableTextColor(color));
+  const corner = (width: number, height: number) => {
+    const short = Math.min(width, height);
+    const r = radiusPercent > 0 ? (radiusPercent / 100) * short : qrSide * 0.07;
+    return Math.min(r, short / 2);
+  };
 
   switch (frame.style) {
     case 'caption': {
@@ -59,7 +70,16 @@ function computeLayout(qrSide: number, frame: QrDesign['frame']): Layout {
         qrSide * 0.86,
         color,
       );
-      return { width: qrSide, height: qrSide + band, qrX: 0, qrY: 0, qrSide, frame: label };
+      const height = qrSide + band;
+      return {
+        width: qrSide,
+        height,
+        qrX: 0,
+        qrY: 0,
+        qrSide,
+        frame: label,
+        cornerRadius: corner(qrSide, height),
+      };
     }
     case 'box-bottom':
     case 'box-top': {
@@ -67,8 +87,9 @@ function computeLayout(qrSide: number, frame: QrDesign['frame']): Layout {
       const band = qrSide * 0.18;
       const width = qrSide + 2 * t;
       const height = qrSide + t + band;
-      const outerR = qrSide * 0.07;
-      const innerR = outerR * 0.55;
+      const outerR = corner(width, height);
+      // Concentric corners keep the border the same thickness all the way round.
+      const innerR = Math.max(0, outerR - t);
       const top = frame.style === 'box-top';
       const qrY = top ? band : t;
       const ring =
@@ -85,7 +106,7 @@ function computeLayout(qrSide: number, frame: QrDesign['frame']): Layout {
         width * 0.84,
         textColor,
       );
-      return { width, height, qrX: t, qrY, qrSide, frame: ring + label };
+      return { width, height, qrX: t, qrY, qrSide, frame: ring + label, cornerRadius: outerR };
     }
     case 'pill': {
       const gap = qrSide * 0.02;
@@ -103,17 +124,27 @@ function computeLayout(qrSide: number, frame: QrDesign['frame']): Layout {
         pillW * 0.82,
         textColor,
       );
+      const height = pillY + pillH + qrSide * 0.03;
       return {
         width: qrSide,
-        height: pillY + pillH + qrSide * 0.03,
+        height,
         qrX: 0,
         qrY: 0,
         qrSide,
         frame: pill + label,
+        cornerRadius: corner(qrSide, height),
       };
     }
     default:
-      return { width: qrSide, height: qrSide, qrX: 0, qrY: 0, qrSide, frame: '' };
+      return {
+        width: qrSide,
+        height: qrSide,
+        qrX: 0,
+        qrY: 0,
+        qrSide,
+        frame: '',
+        cornerRadius: null,
+      };
   }
 }
 
@@ -148,7 +179,7 @@ export function renderMatrixSvg(
   const n = matrix.size;
   const margin = clamp(Math.round(design.margin), 0, 16);
   const qrSide = n + margin * 2;
-  const layout = computeLayout(qrSide, design.frame);
+  const layout = computeLayout(qrSide, design.frame, clamp(design.background.radius, 0, 50));
   const transparent = options.transparent ?? design.background.transparent;
 
   const area = logoArea(n, design.logo);
@@ -185,6 +216,7 @@ export function renderMatrixSvg(
   let background = '';
   if (!transparent) {
     const r =
+      layout.cornerRadius ??
       (clamp(design.background.radius, 0, 50) / 100) * Math.min(layout.width, layout.height);
     background =
       r > 0
