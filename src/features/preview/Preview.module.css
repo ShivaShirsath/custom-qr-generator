@@ -1,0 +1,128 @@
+.card {
+  display: grid;
+  gap: var(--space-5);
+  padding: var(--space-6);
+}
+
+.stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  padding: var(--space-5);
+  border-radius: var(--radius-lg);
+  box-shadow: inset 3px 3px 10px rgba(20, 10, 80, 0.12);
+  overflow: hidden;
+}
+
+.stage img {
+  width: 100%;
+  max-width: 340px;
+  height: auto;
+  filter: drop-shadow(0 12px 22px rgba(40, 20, 120, 0.18));
+  transition: opacity var(--duration) var(--ease);
+}
+
+.stale img {
+  opacity: 0.6;
+}
+
+.empty {
+  display: grid;
+  place-items: center;
+  gap: var(--space-2);
+  min-height: 260px;
+  max-width: 260px;
+  color: var(--text-muted);
+  text-align: center;
+  font-size: var(--text-sm);
+}
+
+.health {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.badge {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 10px 14px;
+  border: 0;
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  text-align: left;
+  width: 100%;
+}
+
+.badge svg:last-child {
+  margin-left: auto;
+  transition: transform var(--duration) var(--ease);
+}
+
+.badge[aria-expanded='true'] svg:last-child {
+  transform: rotate(180deg);
+}
+
+.good {
+  color: var(--good);
+  background: var(--good-soft);
+}
+
+.warn {
+  color: var(--warn);
+  background: var(--warn-soft);
+}
+
+.bad {
+  color: var(--bad);
+  background: var(--bad-soft);
+}
+
+.checks {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.check {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 2px var(--space-2);
+  align-items: start;
+  font-size: var(--text-xs);
+}
+
+.check svg {
+  margin-top: 1px;
+}
+
+.checkTitle {
+  font-weight: 700;
+  color: var(--text);
+}
+
+.checkDetail {
+  grid-column: 2;
+  color: var(--text-muted);
+}
+
+.export {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.actions {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: var(--space-2);
+}
+
+.status {
+  min-height: 1.2em;
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  text-align: center;
+}

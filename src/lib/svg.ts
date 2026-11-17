@@ -1,0 +1,4 @@
+/** Encodes an SVG string as a compact data URL for <img> previews. */
+export function svgDataUrl(svg: string): string {
+  return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
+}
