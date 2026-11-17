@@ -1,6 +1,7 @@
 import { ImagePlus, Trash2 } from 'lucide-react';
 import { useMemo, useRef, useState, type DragEvent } from 'react';
 
+import { useToast } from '@/components/feedback';
 import { LOGO_SHAPES, type QrDesign } from '@/core/qr';
 import {
   Button,
@@ -41,7 +42,7 @@ export function LogoPanel() {
   const selection = config.logo;
   const inputRef = useRef<HTMLInputElement>(null);
   const [dragging, setDragging] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const toast = useToast();
 
   const icons = useMemo(() => presetOptions('icon'), []);
   const { flatBrands } = config;
@@ -53,7 +54,6 @@ export function LogoPanel() {
   const pickPreset = (id: string, color: string | null = null) => {
     const preset = findLogoPreset(id);
     if (!preset) return;
-    setError(null);
     dispatch({
       type: 'logo/set',
       selection: { kind: 'preset', id, color },
@@ -77,10 +77,13 @@ export function LogoPanel() {
     if (!file) return;
     try {
       const src = await prepareLogo(file);
-      setError(null);
       dispatch({ type: 'logo/set', selection: { kind: 'upload', name: file.name }, src });
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Upload failed.');
+      toast.show({
+        tone: 'error',
+        title: "Couldn't use that image",
+        description: e instanceof Error ? e.message : 'Upload failed.',
+      });
     }
   };
 
@@ -123,11 +126,6 @@ export function LogoPanel() {
             }}
           />
         </label>
-        {error && (
-          <p className={styles.error} role="alert">
-            {error}
-          </p>
-        )}
         {logo.src && (
           <div className={styles.current}>
             <img src={logo.src} alt="Current logo" />

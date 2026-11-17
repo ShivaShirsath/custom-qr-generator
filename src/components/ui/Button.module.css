@@ -1,8 +1,10 @@
-.button {
+.button:not([data-tone]) {
   --surface: var(--neutral);
   --tint: var(--neutral-tint);
   --tint-deep: var(--neutral-deep);
+}
 
+.button {
   display: inline-flex;
   align-items: center;
   justify-content: center;

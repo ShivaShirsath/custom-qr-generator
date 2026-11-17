@@ -78,9 +78,3 @@
   height: 100%;
   filter: drop-shadow(0 4px 6px rgb(43 41 102 / 0.18));
 }
-
-.error {
-  font-size: var(--text-xs);
-  font-weight: 600;
-  color: var(--bad);
-}
