@@ -46,6 +46,7 @@ describe('default configuration', () => {
     expect(logo).toEqual({ kind: 'preset', id: 'icon:link', color: null, badgeColor: null });
     expect(design.logo).toMatchObject(LOGO_PLACEMENT);
     expect(DEFAULT_CONFIG.flatBrands).toBe(true);
+    expect(design.margin).toBe(2);
   });
 
   it('scans', async () => {

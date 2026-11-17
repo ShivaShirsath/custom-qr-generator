@@ -12,7 +12,11 @@ import { readStorage, writeStorage } from '@/lib/storage';
 
 import { EXPORT_FORMATS, type Action, type AppConfig, type LogoSelection } from './types';
 
-export const STORAGE_KEY = 'cqg:config:v2';
+export const STORAGE_KEY = 'cqg:config:v3';
+/** Earlier saves, migrated on first load. */
+const LEGACY_KEY = 'cqg:config:v2';
+/** Quiet zone for new codes: 2 modules reads reliably and keeps the code compact. */
+export const DEFAULT_MARGIN = 2;
 
 /** Placement applied whenever a logo is added to a code that had none. */
 export const LOGO_PLACEMENT: Pick<QrDesign['logo'], 'size' | 'padding' | 'shape' | 'excavate'> = {
@@ -31,6 +35,7 @@ function defaultDesign(): QrDesign {
   return {
     ...styled,
     errorCorrection: 'H',
+    margin: DEFAULT_MARGIN,
     background: { ...styled.background, transparent: true },
     logo: { ...styled.logo, ...LOGO_PLACEMENT, src: link ? presetDataUrl(link) : null },
   };
@@ -130,12 +135,19 @@ function hydrateLogo(input: unknown, hasSrc: boolean): LogoSelection {
   return { kind: 'none' };
 }
 
+const isRecord = (v: unknown): v is Record<string, unknown> => typeof v === 'object' && v !== null;
+
 /** Restores saved settings, falling back to defaults for anything missing or invalid. */
 export function loadConfig(): AppConfig {
-  const raw = readStorage(STORAGE_KEY);
+  const current = readStorage(STORAGE_KEY);
+  const raw = current ?? readStorage(LEGACY_KEY);
   if (!raw) return DEFAULT_CONFIG;
   try {
     const saved = JSON.parse(raw) as Partial<Record<keyof AppConfig, unknown>>;
+    // v2 used a 4-module quiet zone by default; move untouched codes to the tighter default.
+    if (!current && isRecord(saved.design) && saved.design.margin === 4) {
+      saved.design = { ...saved.design, margin: DEFAULT_MARGIN };
+    }
     const parsed = parseDesign(saved.design);
     const design = parsed.success ? parsed.design : DEFAULT_DESIGN;
     const exportSettings = mergeDeep(DEFAULT_CONFIG.exportSettings, saved.exportSettings);
