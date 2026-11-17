@@ -10,7 +10,7 @@ const MEDIA = '(prefers-color-scheme: dark)';
 
 function readMode(): ThemeMode {
   const stored = readStorage(STORAGE_KEY);
-  return stored === 'light' || stored === 'dark' || stored === 'system' ? stored : 'system';
+  return stored === 'light' || stored === 'dark' || stored === 'system' ? stored : 'light';
 }
 
 function resolve(mode: ThemeMode): ResolvedTheme {
@@ -47,7 +47,7 @@ const snapshot = () => `${readMode()}|${resolve(readMode())}`;
 
 /** Theme preference (system / light / dark), persisted and synced across tabs. */
 export function useTheme() {
-  const [mode, resolved] = useSyncExternalStore(subscribe, snapshot, () => 'system|light').split(
+  const [mode, resolved] = useSyncExternalStore(subscribe, snapshot, () => 'light|light').split(
     '|',
   ) as [ThemeMode, ResolvedTheme];
 

@@ -1,3 +1,5 @@
+import { LocateFixed } from 'lucide-react';
+
 import {
   CRYPTO_COINS,
   WIFI_ENCRYPTIONS,
@@ -6,7 +8,9 @@ import {
   type CryptoCoin,
   type WifiEncryption,
 } from '@/core/content';
-import { FieldRow, Segmented, Select, Switch, TextArea, TextInput } from '@/components/ui';
+import { Button, FieldRow, Segmented, Select, Switch, TextArea, TextInput } from '@/components/ui';
+
+import { useLocationOffer } from './useLocationOffer';
 
 export interface FormProps<T extends ContentType> {
   values: ContentValues[T];
@@ -262,8 +266,20 @@ export function EventForm({ values, onChange }: FormProps<'event'>) {
 }
 
 export function LocationForm({ values, onChange }: FormProps<'location'>) {
+  const empty = !values.latitude.trim() && !values.longitude.trim();
+  const { supported, requestCurrent } = useLocationOffer(empty, (coords) => onChange(coords));
   return (
     <>
+      {supported && (
+        <Button
+          size="sm"
+          icon={<LocateFixed size={16} />}
+          style={{ justifySelf: 'start' }}
+          onClick={() => void requestCurrent()}
+        >
+          Use my current location
+        </Button>
+      )}
       <FieldRow>
         <TextInput
           label="Latitude"

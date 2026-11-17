@@ -1,6 +1,6 @@
 // Applies the saved theme before first paint to avoid a flash of the wrong theme.
 (function () {
-  var mode = 'system';
+  var mode = 'light';
   try {
     var stored = window.localStorage.getItem('cqg:theme');
     if (stored === 'light' || stored === 'dark' || stored === 'system') mode = stored;
