@@ -1,10 +1,27 @@
 {
-  "name": "Custom QR Generator",
-  "short_name": "QR Generator",
-  "description": "Free, open-source static QR code generator.",
+  "name": "Hi there, QR!",
+  "short_name": "Hi there, QR!",
+  "description": "Free, open-source QR code generator with styles, logos and frames.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#f6f4fd",
-  "theme_color": "#8b6cf0",
-  "icons": [{ "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }]
+  "background_color": "#8844ff",
+  "theme_color": "#8844ff",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
 }

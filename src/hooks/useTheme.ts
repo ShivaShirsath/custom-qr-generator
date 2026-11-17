@@ -25,7 +25,7 @@ function apply(mode: ThemeMode) {
   root.dataset.themeMode = mode;
   document
     .querySelectorAll<HTMLMetaElement>('meta[name="theme-color"]')
-    .forEach((meta) => (meta.content = resolved === 'dark' ? '#13112a' : '#f6f4fd'));
+    .forEach((meta) => (meta.content = resolved === 'dark' ? '#8844ff' : '#ff8844'));
 }
 
 const listeners = new Set<() => void>();

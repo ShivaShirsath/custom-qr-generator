@@ -1,4 +1,6 @@
-# Custom QR Generator
+# Hi there, QR!
+
+<img src="public/icon-192.png" alt="The Hi there, QR! mascot waving" width="96" />
 
 A free, open-source QR code generator that runs in your browser. Design the code to match your brand, then download it as SVG, PNG, JPG or WebP.
 

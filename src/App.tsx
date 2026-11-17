@@ -41,21 +41,17 @@ function Shell() {
   return (
     <>
       <TooltipLayer />
-      <div className={styles.backdrop} aria-hidden="true">
-        <span className={styles.blob} />
-        <span className={styles.blob} />
-        <span className={styles.blob} />
-      </div>
+      <div className={styles.backdrop} aria-hidden="true" />
 
       <div className={styles.app}>
         <header className={cx('glass', styles.header)}>
           <div className={styles.intro}>
             <QrBuddy className={styles.mascot} size={56} />
             <div className={styles.introText}>
-              <span className={styles.greeting}>Hi there! 👋</span>
-              <h1 className={styles.title}>
+              <h1 className={styles.title}>Hi there, QR!</h1>
+              <span className={styles.greeting}>
                 Make QR codes that look <span className={styles.gradientText}>like you</span>
-              </h1>
+              </span>
             </div>
           </div>
 

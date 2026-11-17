@@ -1,22 +1,54 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="14 4 222 222">
   <defs>
-    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#a98bff"/>
-      <stop offset="1" stop-color="#5fd0a0"/>
+    <linearGradient id="body" x1="0.1" y1="0" x2="0.6" y2="1">
+      <stop offset="0" stop-color="#ddd0ff"/>
+      <stop offset="0.55" stop-color="#b39cfb"/>
+      <stop offset="1" stop-color="#8466ea"/>
     </linearGradient>
+    <linearGradient id="face" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#ebe6fb"/>
+    </linearGradient>
+    <radialGradient id="ball" cx="0.35" cy="0.3" r="0.75">
+      <stop offset="0" stop-color="#fff6c4"/>
+      <stop offset="1" stop-color="#f2b52c"/>
+    </radialGradient>
   </defs>
-  <rect width="64" height="64" rx="16" fill="url(#g)"/>
+  <ellipse cx="96" cy="205" rx="19" ry="11" fill="url(#body)"/>
+  <ellipse cx="144" cy="205" rx="19" ry="11" fill="url(#body)"/>
+  <path d="M60 128 44 160" stroke="url(#body)" stroke-width="17" stroke-linecap="round"/>
+  <path d="M120 44V24" stroke="#8466ea" stroke-width="5" stroke-linecap="round"/>
+  <circle cx="120" cy="19" r="10" fill="url(#ball)"/>
+  <ellipse cx="116.5" cy="15" rx="3.5" ry="2.2" fill="#fff" opacity=".8"/>
+  <rect x="52" y="40" width="136" height="160" rx="48" fill="url(#body)"/>
+  <path d="M180 124 203 82" stroke="url(#body)" stroke-width="17" stroke-linecap="round"/>
+  <circle cx="205" cy="77" r="12" fill="#c7b5ff"/>
+  <ellipse cx="90" cy="62" rx="26" ry="10" transform="rotate(-18 90 62)" fill="#fff" opacity=".5"/>
+  <rect x="70" y="64" width="100" height="106" rx="30" fill="url(#face)"/>
+  <g fill="#2b2966">
+    <rect x="83" y="84" width="32" height="32" rx="10"/>
+    <rect x="125" y="84" width="32" height="32" rx="10"/>
+  </g>
   <g fill="#fff">
-    <path fill-rule="evenodd" d="M12 12h16v16H12zm4 4v8h8v-8z"/>
-    <rect x="18" y="18" width="4" height="4" rx="1"/>
-    <path fill-rule="evenodd" d="M36 12h16v16H36zm4 4v8h8v-8z"/>
-    <rect x="42" y="18" width="4" height="4" rx="1"/>
-    <path fill-rule="evenodd" d="M12 36h16v16H12zm4 4v8h8v-8z"/>
-    <rect x="18" y="42" width="4" height="4" rx="1"/>
-    <circle cx="38" cy="38" r="2.4"/>
-    <circle cx="46" cy="38" r="2.4"/>
-    <circle cx="38" cy="46" r="2.4"/>
-    <circle cx="50" cy="50" r="2.4"/>
-    <circle cx="44" cy="44" r="2.4"/>
+    <rect x="88.5" y="89.5" width="21" height="21" rx="6.5"/>
+    <rect x="130.5" y="89.5" width="21" height="21" rx="6.5"/>
+  </g>
+  <g fill="#2b2966">
+    <rect x="92.5" y="93.5" width="13" height="13" rx="4.5"/>
+    <rect x="134.5" y="93.5" width="13" height="13" rx="4.5"/>
+  </g>
+  <circle cx="101.6" cy="97.2" r="2.6" fill="#fff"/>
+  <circle cx="143.6" cy="97.2" r="2.6" fill="#fff"/>
+  <ellipse cx="86" cy="127" rx="8" ry="5" fill="#ffadc8" opacity=".85"/>
+  <ellipse cx="154" cy="127" rx="8" ry="5" fill="#ffadc8" opacity=".85"/>
+  <path d="M107 126q13 15 26 0z" fill="#2b2966"/>
+  <ellipse cx="120" cy="132" rx="5" ry="3" fill="#ff8f86"/>
+  <g fill="#2b2966" opacity=".85">
+    <rect x="86" y="146" width="6" height="6" rx="2"/>
+    <rect x="96" y="152" width="6" height="6" rx="2"/>
+    <rect x="112" y="148" width="6" height="6" rx="2"/>
+    <rect x="128" y="153" width="6" height="6" rx="2"/>
+    <rect x="140" y="146" width="6" height="6" rx="2"/>
+    <rect x="150" y="153" width="6" height="6" rx="2"/>
   </g>
 </svg>
