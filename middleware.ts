@@ -7,6 +7,8 @@ import { waitUntil } from '@vercel/functions';
 import { handleRateLimit } from './server/rate-limit';
 
 export const config = {
+  // Edge middleware is bundled at deploy time; the Node runtime would load files unbundled.
+  runtime: 'edge',
   // Everything except static files: hashed build assets and the files in public/.
   // Page routes and /api/* are matched. Uses the documented Next-style negative lookahead.
   matcher: [
