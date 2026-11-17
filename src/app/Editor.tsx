@@ -1,15 +1,13 @@
-import { Frame, ImageIcon, Palette, RotateCcw, Shapes, Type } from 'lucide-react';
+import { Frame, ImageIcon, Palette, Shapes, Type } from 'lucide-react';
 import { useState } from 'react';
 
-import { ConfirmDialog, useToast } from '@/components/feedback';
-import { Button, Tabs, panelId, tabId, type TabItem } from '@/components/ui';
+import { Tabs, panelId, tabId, type TabItem } from '@/components/ui';
 import { ContentPanel } from '@/features/content/ContentPanel';
 import { ColorsPanel } from '@/features/design/ColorsPanel';
 import { PatternPanel } from '@/features/design/PatternPanel';
 import { FramePanel } from '@/features/frame/FramePanel';
 import { LogoPanel } from '@/features/logo/LogoPanel';
 import { cx } from '@/lib/cx';
-import { useConfig } from '@/state';
 
 import styles from './App.module.css';
 
@@ -45,9 +43,6 @@ export function Editor() {
     // Deep-linkable tabs without adding history entries.
     window.history.replaceState(null, '', id === 'content' ? window.location.pathname : `#${id}`);
   };
-  const { dispatch } = useConfig();
-  const toast = useToast();
-  const [confirmReset, setConfirmReset] = useState(false);
   const Panel = PANELS[active];
 
   return (
@@ -66,35 +61,7 @@ export function Editor() {
         className={styles.panel}
       >
         <Panel />
-        <div className={styles.panelFooter}>
-          <Button
-            variant="ghost"
-            size="sm"
-            icon={<RotateCcw size={14} />}
-            onClick={() => setConfirmReset(true)}
-          >
-            Reset everything
-          </Button>
-        </div>
       </div>
-      <ConfirmDialog
-        open={confirmReset}
-        title="Start over?"
-        description="Your content, style, colours, logo and frame go back to the defaults. This can't be undone."
-        confirmLabel="Reset"
-        cancelLabel="Keep editing"
-        onCancel={() => setConfirmReset(false)}
-        onConfirm={() => {
-          setConfirmReset(false);
-          dispatch({ type: 'reset' });
-          setActive('content');
-          toast.show({
-            tone: 'success',
-            title: 'Fresh start!',
-            description: 'Everything is back to the defaults.',
-          });
-        }}
-      />
     </section>
   );
 }

@@ -23,7 +23,7 @@ export function OptionGrid<T extends string>({
   value,
   options,
   onChange,
-  minTileWidth = 78,
+  minTileWidth = 72,
 }: OptionGridProps<T>) {
   const values = options.map((o) => o.value);
   const focusable = value ?? values[0];

@@ -8,9 +8,14 @@ import type { Tone } from '@/lib/tone';
 import styles from './Toast.module.css';
 import { ToastContext, type ToastApi, type ToastOptions, type ToastTone } from './toast-context';
 
-interface ToastItem extends Required<Omit<ToastOptions, 'description'>> {
+interface ToastItem {
   id: number;
+  tone: ToastTone;
+  title: string;
   description?: string;
+  actions?: ToastOptions['actions'];
+  key?: string;
+  icon?: ReactNode;
   leaving: boolean;
 }
 
@@ -52,18 +57,38 @@ export function ToastProvider({ children }: { children: ReactNode }) {
   );
 
   const show = useCallback(
-    ({ tone = 'info', title, description, duration }: ToastOptions) => {
+    ({
+      tone = 'info',
+      title,
+      description,
+      duration,
+      actions,
+      onTimeout,
+      key,
+      icon,
+    }: ToastOptions) => {
       const id = nextId.current++;
-      const ms = duration ?? (tone === 'error' ? 6000 : 3500);
-      setToasts((list) =>
-        [...list, { id, tone, title, description, duration: ms, leaving: false }].slice(
-          -MAX_TOASTS,
-        ),
-      );
+      const ms = duration ?? (tone === 'error' ? 6000 : actions ? 9000 : 3500);
+      setToasts((list) => {
+        const replaced = key ? list.filter((t) => t.key === key) : [];
+        replaced.forEach((t) => {
+          window.clearTimeout(timers.current.get(t.id));
+          timers.current.delete(t.id);
+        });
+        const kept = key ? list.filter((t) => t.key !== key) : list;
+        return [
+          ...kept,
+          { id, tone, title, description, actions, key, icon, leaving: false },
+        ].slice(-MAX_TOASTS);
+      });
       timers.current.set(
         id,
-        window.setTimeout(() => dismiss(id), ms),
+        window.setTimeout(() => {
+          onTimeout?.();
+          dismiss(id);
+        }, ms),
       );
+      return id;
     },
     [dismiss],
   );
@@ -86,12 +111,27 @@ export function ToastProvider({ children }: { children: ReactNode }) {
             role={t.tone === 'error' ? 'alert' : 'status'}
             className={cx(styles.toast, t.leaving && styles.leaving)}
           >
-            <span className={styles.icon}>
-              <ToastIcon tone={t.tone} />
-            </span>
+            <span className={styles.icon}>{t.icon ?? <ToastIcon tone={t.tone} />}</span>
             <span className={styles.text}>
               <span className={styles.title}>{t.title}</span>
               {t.description && <span className={styles.description}>{t.description}</span>}
+              {t.actions && (
+                <span className={styles.actions}>
+                  {t.actions.map((a) => (
+                    <button
+                      key={a.label}
+                      type="button"
+                      className={cx(styles.action, a.primary && styles.actionPrimary)}
+                      onClick={() => {
+                        a.onClick();
+                        dismiss(t.id);
+                      }}
+                    >
+                      {a.label}
+                    </button>
+                  ))}
+                </span>
+              )}
             </span>
             <button
               type="button"

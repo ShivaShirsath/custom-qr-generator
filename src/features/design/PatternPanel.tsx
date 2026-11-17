@@ -1,3 +1,4 @@
+import { Dices } from 'lucide-react';
 import { useMemo } from 'react';
 
 import {
@@ -9,7 +10,7 @@ import {
   renderQrSvg,
   type QrDesign,
 } from '@/core/qr';
-import { OptionGrid, Section, Segmented, Slider } from '@/components/ui';
+import { Button, Columns, FieldRow, OptionGrid, Section, Segmented, Slider } from '@/components/ui';
 import { svgDataUrl } from '@/lib/svg';
 import { useConfig } from '@/state';
 
@@ -17,6 +18,7 @@ import { DOT_LABELS, ECL_LABELS, EYE_BALL_LABELS, EYE_FRAME_LABELS } from './lab
 import { DESIGN_PRESETS, applyPreset } from './presets';
 import styles from './Presets.module.css';
 import { DotPreview, EyeBallPreview, EyeFramePreview } from './ShapePreview';
+import { surpriseDesign } from './surprise';
 
 export function PatternPanel() {
   const { config, dispatch } = useConfig();
@@ -57,6 +59,22 @@ export function PatternPanel() {
       <Section
         title="Quick styles"
         description="Start from a preset, then fine-tune everything below."
+        action={
+          <Button
+            size="sm"
+            tone="pink"
+            icon={<Dices size={16} />}
+            onClick={() =>
+              dispatch({
+                type: 'design/update',
+                group: 'surprise',
+                update: (d) => surpriseDesign(d),
+              })
+            }
+          >
+            Surprise me
+          </Button>
+        }
       >
         <div className={styles.grid}>
           {thumbnails.map(({ preset, src }) => (
@@ -84,66 +102,73 @@ export function PatternPanel() {
           }))}
           onChange={(style) => update((d) => ({ ...d, dots: { ...d.dots, style } }))}
         />
-        <Slider
-          label="Dot size"
-          value={design.dots.scale}
-          min={0.5}
-          max={1}
-          step={0.05}
-          disabled={!scalable}
-          hint={scalable ? undefined : 'Connected styles always use full-size modules.'}
-          format={(v) => `${Math.round(v * 100)}%`}
-          onChange={(scale) => update((d) => ({ ...d, dots: { ...d.dots, scale } }))}
-        />
       </Section>
 
-      <Section title="Corner eyes" description="The three finder patterns scanners look for first.">
-        <OptionGrid
-          label="Eye frame style"
-          value={design.eyeFrame.style}
-          options={EYE_FRAME_STYLES.map((s) => ({
-            value: s,
-            label: EYE_FRAME_LABELS[s],
-            preview: <EyeFramePreview style={s} />,
-          }))}
-          onChange={(style) => update((d) => ({ ...d, eyeFrame: { ...d.eyeFrame, style } }))}
-        />
-        <OptionGrid
-          label="Eye centre style"
-          value={design.eyeBall.style}
-          options={EYE_BALL_STYLES.map((s) => ({
-            value: s,
-            label: EYE_BALL_LABELS[s],
-            preview: <EyeBallPreview style={s} />,
-          }))}
-          onChange={(style) => update((d) => ({ ...d, eyeBall: { ...d.eyeBall, style } }))}
-        />
-      </Section>
+      <Columns>
+        <Section title="Eye frames" description="Outer squares scanners look for first.">
+          <OptionGrid
+            label="Eye frame style"
+            value={design.eyeFrame.style}
+            minTileWidth={60}
+            options={EYE_FRAME_STYLES.map((s) => ({
+              value: s,
+              label: EYE_FRAME_LABELS[s],
+              preview: <EyeFramePreview style={s} />,
+            }))}
+            onChange={(style) => update((d) => ({ ...d, eyeFrame: { ...d.eyeFrame, style } }))}
+          />
+        </Section>
+        <Section title="Eye centres" description="The dot inside each eye.">
+          <OptionGrid
+            label="Eye centre style"
+            value={design.eyeBall.style}
+            minTileWidth={60}
+            options={EYE_BALL_STYLES.map((s) => ({
+              value: s,
+              label: EYE_BALL_LABELS[s],
+              preview: <EyeBallPreview style={s} />,
+            }))}
+            onChange={(style) => update((d) => ({ ...d, eyeBall: { ...d.eyeBall, style } }))}
+          />
+        </Section>
+      </Columns>
 
-      <Section title="Structure" description="Reliability and spacing.">
-        <Segmented
-          label="Error correction"
-          value={design.errorCorrection}
-          options={ERROR_CORRECTION_LEVELS.map((l) => ({
-            value: l,
-            label: `${l} · ${ECL_LABELS[l].label}`,
-            title: ECL_LABELS[l].detail,
-          }))}
-          onChange={(errorCorrection) => update((d) => ({ ...d, errorCorrection }))}
-        />
-        <p style={{ fontSize: 'var(--text-xs)', color: 'var(--text-muted)' }}>
-          {ECL_LABELS[design.errorCorrection].detail}
-        </p>
-        <Slider
-          label="Quiet zone"
-          value={design.margin}
-          min={0}
-          max={10}
-          format={(v) => `${v} modules`}
-          hint="Blank border around the code. 2–4 is ideal."
-          onChange={(margin) => update((d) => ({ ...d, margin }))}
-        />
-      </Section>
+      <Columns>
+        <Section title="Error correction" description={ECL_LABELS[design.errorCorrection].detail}>
+          <Segmented
+            label="Error correction"
+            value={design.errorCorrection}
+            options={ERROR_CORRECTION_LEVELS.map((l) => ({
+              value: l,
+              label: l,
+              title: `${ECL_LABELS[l].label}: ${ECL_LABELS[l].detail}`,
+            }))}
+            onChange={(errorCorrection) => update((d) => ({ ...d, errorCorrection }))}
+          />
+        </Section>
+        <Section title="Spacing" description="Quiet zone of 2–4 is ideal.">
+          <FieldRow>
+            <Slider
+              label="Dot size"
+              value={design.dots.scale}
+              min={0.5}
+              max={1}
+              step={0.05}
+              disabled={!scalable}
+              format={(v) => (scalable ? `${Math.round(v * 100)}%` : 'Fixed')}
+              onChange={(scale) => update((d) => ({ ...d, dots: { ...d.dots, scale } }))}
+            />
+            <Slider
+              label="Quiet zone"
+              value={design.margin}
+              min={0}
+              max={10}
+              format={(v) => `${v} modules`}
+              onChange={(margin) => update((d) => ({ ...d, margin }))}
+            />
+          </FieldRow>
+        </Section>
+      </Columns>
     </>
   );
 }

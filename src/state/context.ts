@@ -5,6 +5,10 @@ import type { Action, AppConfig } from './types';
 export interface ConfigContextValue {
   config: AppConfig;
   dispatch: Dispatch<Action>;
+  undo: () => void;
+  redo: () => void;
+  canUndo: boolean;
+  canRedo: boolean;
 }
 
 export const ConfigContext = createContext<ConfigContextValue | null>(null);

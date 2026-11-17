@@ -3,7 +3,7 @@ import type { ComponentType } from 'react';
 import { ClayIcon } from '@/components/illustrations';
 
 import { CONTENT_TYPES, buildContent, type ContentType, type ContentValues } from '@/core/content';
-import { Section } from '@/components/ui';
+import { Section, Switch } from '@/components/ui';
 import { handleRadioKeys } from '@/components/ui/radio-keys';
 import { useConfig } from '@/state';
 
@@ -72,7 +72,7 @@ export function ContentPanel() {
                 className={styles.type}
                 onClick={() => setType(t)}
               >
-                <ClayIcon name={t} size={40} />
+                <ClayIcon name={t} size={36} />
                 {LABELS[t]}
               </button>
             );
@@ -89,6 +89,12 @@ export function ContentPanel() {
             }
           />
         </div>
+        <Switch
+          label="Suggest matching styles"
+          description="Recommend a logo and colours when your link or content matches one."
+          checked={config.autoStyle}
+          onChange={(enabled) => dispatch({ type: 'autoStyle/set', enabled })}
+        />
         {payload && (
           <details className={styles.payload}>
             <summary>Encoded data</summary>

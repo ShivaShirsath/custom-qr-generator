@@ -17,7 +17,7 @@ export const STORAGE_KEY = 'cqg:config:v2';
 /** Placement applied whenever a logo is added to a code that had none. */
 export const LOGO_PLACEMENT: Pick<QrDesign['logo'], 'size' | 'padding' | 'shape' | 'excavate'> = {
   size: 0.35,
-  padding: 0,
+  padding: 0.25,
   shape: 'none',
   excavate: true,
 };
@@ -42,7 +42,8 @@ export const DEFAULT_CONFIG: AppConfig = {
   design: defaultDesign(),
   logo: { kind: 'preset', id: DEFAULT_LOGO_ID, color: null },
   flatBrands: true,
-  exportSettings: { format: 'png', size: 1024, transparent: false, fileName: 'qr-code' },
+  autoStyle: true,
+  exportSettings: { format: 'png', size: 1024, fileName: 'qr-code' },
 };
 
 export function configReducer(state: AppConfig, action: Action): AppConfig {
@@ -90,6 +91,10 @@ export function configReducer(state: AppConfig, action: Action): AppConfig {
             : { ...state.design, logo: { ...state.design.logo, src } },
       };
     }
+    case 'autoStyle/set':
+      return { ...state, autoStyle: action.enabled };
+    case 'look/replace':
+      return { ...state, design: action.design, logo: action.logo };
     case 'export/update':
       return { ...state, exportSettings: { ...state.exportSettings, ...action.patch } };
     case 'reset':
@@ -139,6 +144,7 @@ export function loadConfig(): AppConfig {
       design,
       logo: hydrateLogo(saved.logo, design.logo.src !== null),
       flatBrands: typeof saved.flatBrands === 'boolean' ? saved.flatBrands : true,
+      autoStyle: typeof saved.autoStyle === 'boolean' ? saved.autoStyle : true,
       exportSettings,
     };
   } catch {

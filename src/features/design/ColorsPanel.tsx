@@ -1,7 +1,7 @@
 import { ArrowLeftRight } from 'lucide-react';
 
 import { solid, type Paint, type QrDesign } from '@/core/qr';
-import { Button, Section, Slider, Switch } from '@/components/ui';
+import { Button, Columns, Section, Slider, Switch } from '@/components/ui';
 import { useConfig } from '@/state';
 
 import { PaintEditor } from './PaintEditor';
@@ -70,85 +70,87 @@ export function ColorsPanel() {
         </div>
       </Section>
 
-      <Section title="Code colour">
-        <PaintEditor label="Code" paint={design.dots.paint} onChange={setDots} />
-      </Section>
-
-      <Section title="Eye frames">
-        <Switch
-          label="Match code colour"
-          checked={design.eyeFrame.inherit}
-          onChange={(inherit) =>
-            update((d) => ({
-              ...d,
-              eyeFrame: {
-                ...d.eyeFrame,
-                inherit,
-                paint: inherit ? d.eyeFrame.paint : d.dots.paint,
-              },
-            }))
-          }
-        />
-        {!design.eyeFrame.inherit && (
-          <PaintEditor
-            label="Eye frame"
-            paint={design.eyeFrame.paint}
-            onChange={(paint) => update((d) => ({ ...d, eyeFrame: { ...d.eyeFrame, paint } }))}
+      <Columns>
+        <Section title="Code colour">
+          <PaintEditor label="Code" paint={design.dots.paint} onChange={setDots} />
+        </Section>
+        <Section title="Background">
+          <Switch
+            label="Transparent background"
+            description="Exports keep transparency in PNG, WebP and SVG."
+            checked={design.background.transparent}
+            onChange={(transparent) =>
+              update((d) => ({ ...d, background: { ...d.background, transparent } }))
+            }
           />
-        )}
-      </Section>
+          {!design.background.transparent && (
+            <>
+              <PaintEditor
+                label="Background"
+                paint={design.background.paint}
+                onChange={(paint) =>
+                  update((d) => ({ ...d, background: { ...d.background, paint } }))
+                }
+              />
+              <Slider
+                label="Corner radius"
+                value={design.background.radius}
+                min={0}
+                max={50}
+                format={(v) => `${v}%`}
+                onChange={(radius) =>
+                  update((d) => ({ ...d, background: { ...d.background, radius } }))
+                }
+              />
+            </>
+          )}
+        </Section>
+      </Columns>
 
-      <Section title="Eye centres">
-        <Switch
-          label="Match code colour"
-          checked={design.eyeBall.inherit}
-          onChange={(inherit) =>
-            update((d) => ({
-              ...d,
-              eyeBall: { ...d.eyeBall, inherit, paint: inherit ? d.eyeBall.paint : d.dots.paint },
-            }))
-          }
-        />
-        {!design.eyeBall.inherit && (
-          <PaintEditor
-            label="Eye centre"
-            paint={design.eyeBall.paint}
-            onChange={(paint) => update((d) => ({ ...d, eyeBall: { ...d.eyeBall, paint } }))}
+      <Columns>
+        <Section title="Eye frames">
+          <Switch
+            label="Match code colour"
+            checked={design.eyeFrame.inherit}
+            onChange={(inherit) =>
+              update((d) => ({
+                ...d,
+                eyeFrame: {
+                  ...d.eyeFrame,
+                  inherit,
+                  paint: inherit ? d.eyeFrame.paint : d.dots.paint,
+                },
+              }))
+            }
           />
-        )}
-      </Section>
-
-      <Section title="Background">
-        <Switch
-          label="Transparent background"
-          description="Exports keep transparency in PNG, WebP and SVG."
-          checked={design.background.transparent}
-          onChange={(transparent) =>
-            update((d) => ({ ...d, background: { ...d.background, transparent } }))
-          }
-        />
-        {!design.background.transparent && (
-          <>
+          {!design.eyeFrame.inherit && (
             <PaintEditor
-              label="Background"
-              paint={design.background.paint}
-              onChange={(paint) =>
-                update((d) => ({ ...d, background: { ...d.background, paint } }))
-              }
+              label="Eye frame"
+              paint={design.eyeFrame.paint}
+              onChange={(paint) => update((d) => ({ ...d, eyeFrame: { ...d.eyeFrame, paint } }))}
             />
-            <Slider
-              label="Corner radius"
-              value={design.background.radius}
-              min={0}
-              max={50}
-              format={(v) => `${v}%`}
-              onChange={(radius) =>
-                update((d) => ({ ...d, background: { ...d.background, radius } }))
-              }
+          )}
+        </Section>
+        <Section title="Eye centres">
+          <Switch
+            label="Match code colour"
+            checked={design.eyeBall.inherit}
+            onChange={(inherit) =>
+              update((d) => ({
+                ...d,
+                eyeBall: { ...d.eyeBall, inherit, paint: inherit ? d.eyeBall.paint : d.dots.paint },
+              }))
+            }
+          />
+          {!design.eyeBall.inherit && (
+            <PaintEditor
+              label="Eye centre"
+              paint={design.eyeBall.paint}
+              onChange={(paint) => update((d) => ({ ...d, eyeBall: { ...d.eyeBall, paint } }))}
             />
-          </>
-        )}
-      </Section>
+          )}
+        </Section>
+      </Columns>
     </>
   );
 }

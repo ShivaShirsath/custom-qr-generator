@@ -120,7 +120,7 @@ function toDataUrl(svg: string): string {
 
 /** Standalone SVG markup for a clay icon. */
 export function clayIconSvg(name: ClayIconName): string {
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2 52 54">${DEFS}<g filter="url(#sh)">${ART[name]}</g></svg>`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="-1 -1 50 51">${DEFS}<g filter="url(#sh)">${ART[name]}</g></svg>`;
 }
 
 const iconCache = new Map<ClayIconName, string>();

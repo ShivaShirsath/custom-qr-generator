@@ -6,6 +6,7 @@ import { LOGO_SHAPES, type QrDesign } from '@/core/qr';
 import {
   Button,
   ColorField,
+  Columns,
   FieldRow,
   OptionGrid,
   Section,
@@ -42,6 +43,9 @@ export function LogoPanel() {
   const selection = config.logo;
   const inputRef = useRef<HTMLInputElement>(null);
   const [dragging, setDragging] = useState(false);
+  const [library, setLibrary] = useState<'icon' | 'brand'>(() =>
+    config.logo.kind === 'preset' && config.logo.id.startsWith('brand:') ? 'brand' : 'icon',
+  );
   const toast = useToast();
 
   const icons = useMemo(() => presetOptions('icon'), []);
@@ -98,128 +102,139 @@ export function LogoPanel() {
 
   return (
     <>
-      <Section
-        title="Your logo"
-        description="PNG, JPEG, WebP, GIF, AVIF or SVG up to 5 MB. It never leaves your device."
-      >
-        <label
-          className={cx(styles.drop, dragging && styles.dragging)}
-          onDragOver={(e) => {
-            e.preventDefault();
-            setDragging(true);
-          }}
-          onDragLeave={() => setDragging(false)}
-          onDrop={onDrop}
+      <Columns>
+        <Section
+          title="Your logo"
+          description="PNG, JPEG, WebP, GIF, AVIF or SVG up to 5 MB. It never leaves your device."
         >
-          <ImagePlus size={28} aria-hidden="true" />
-          <span>
-            <strong>Click to upload</strong> or drag an image here
-          </span>
-          <input
-            ref={inputRef}
-            type="file"
-            accept={ACCEPT_ATTR}
-            className="visually-hidden"
-            onChange={(e) => {
-              void upload(e.target.files?.[0]);
-              e.target.value = '';
+          <label
+            className={cx(styles.drop, dragging && styles.dragging)}
+            onDragOver={(e) => {
+              e.preventDefault();
+              setDragging(true);
             }}
-          />
-        </label>
-        {logo.src && (
-          <div className={styles.current}>
-            <img src={logo.src} alt="Current logo" />
-            <span className={styles.currentText}>
-              {selection.kind === 'upload' ? selection.name : (preset?.label ?? 'Logo')}
+            onDragLeave={() => setDragging(false)}
+            onDrop={onDrop}
+          >
+            <ImagePlus size={22} aria-hidden="true" />
+            <span>
+              <strong>Click to upload</strong> or drag an image here
             </span>
-            <Button
-              size="sm"
-              variant="ghost"
-              icon={<Trash2 size={15} />}
-              onClick={() => dispatch({ type: 'logo/set', selection: { kind: 'none' }, src: null })}
-            >
-              Remove
-            </Button>
+            <input
+              ref={inputRef}
+              type="file"
+              accept={ACCEPT_ATTR}
+              className="visually-hidden"
+              onChange={(e) => {
+                void upload(e.target.files?.[0]);
+                e.target.value = '';
+              }}
+            />
+          </label>
+          {logo.src && (
+            <div className={styles.current}>
+              <img src={logo.src} alt="Current logo" />
+              <span className={styles.currentText}>
+                {selection.kind === 'upload' ? selection.name : (preset?.label ?? 'Logo')}
+              </span>
+              <Button
+                size="sm"
+                variant="ghost"
+                icon={<Trash2 size={15} />}
+                onClick={() =>
+                  dispatch({ type: 'logo/set', selection: { kind: 'none' }, src: null })
+                }
+              >
+                Remove
+              </Button>
+            </div>
+          )}
+        </Section>
+        {logo.src && (
+          <Section title="Placement">
+            <FieldRow>
+              <Slider
+                label="Size"
+                value={logo.size}
+                min={0.1}
+                max={0.35}
+                step={0.01}
+                format={(v) => `${Math.round(v * 100)}%`}
+                onChange={(size) => update({ size })}
+              />
+              <Slider
+                label="Padding"
+                value={logo.padding}
+                min={0}
+                max={4}
+                step={0.25}
+                format={(v) => `${v} modules`}
+                onChange={(padding) => update({ padding })}
+              />
+            </FieldRow>
+            <Segmented
+              label="Logo backdrop"
+              value={logo.shape}
+              options={LOGO_SHAPES.map((s) => ({ value: s, label: LOGO_SHAPE_LABELS[s] }))}
+              onChange={(shape) => update({ shape })}
+            />
+            {logo.shape !== 'none' && (
+              <ColorField
+                label="Backdrop colour"
+                value={logo.background}
+                onChange={(background) => update({ background })}
+              />
+            )}
+            <Switch
+              label="Clear dots behind logo"
+              description="Removes modules under the logo for a cleaner look."
+              checked={logo.excavate}
+              onChange={(excavate) => update({ excavate })}
+            />
+          </Section>
+        )}
+      </Columns>
+
+      <Section
+        title="Library"
+        description={library === 'brand' ? 'Brand marks' : '3D icons'}
+        action={
+          <Segmented
+            label="Logo library"
+            value={library}
+            options={[
+              { value: 'icon', label: 'Icons' },
+              { value: 'brand', label: 'Brands' },
+            ]}
+            onChange={setLibrary}
+          />
+        }
+      >
+        <OptionGrid
+          label={library === 'brand' ? 'Brand logos' : 'Icon logos'}
+          value={selectedId}
+          options={library === 'brand' ? brands : icons}
+          onChange={(id) => pickPreset(id)}
+          minTileWidth={58}
+        />
+        {library === 'brand' && (
+          <div className={styles.brandOptions}>
+            <Switch
+              label="Flat brand logos"
+              description="Bare marks instead of clay badges."
+              checked={flatBrands}
+              onChange={setFlatBrands}
+            />
+            {preset?.group === 'brand' && selection.kind === 'preset' && (
+              <ColorField
+                label={flatBrands ? 'Logo colour' : 'Badge colour'}
+                value={selection.color ?? preset.defaultColor}
+                onChange={(color) => pickPreset(preset.id, color)}
+              />
+            )}
           </div>
         )}
       </Section>
-
-      <Section title="Icons">
-        <OptionGrid
-          label="Icon logos"
-          value={selectedId}
-          options={icons}
-          onChange={(id) => pickPreset(id)}
-          minTileWidth={64}
-        />
-      </Section>
-
-      <Section title="Brands">
-        <Switch
-          label="Flat brand logos"
-          description="Show the bare brand marks instead of clay badges."
-          checked={flatBrands}
-          onChange={setFlatBrands}
-        />
-        <OptionGrid
-          label="Brand logos"
-          value={selectedId}
-          options={brands}
-          onChange={(id) => pickPreset(id)}
-          minTileWidth={64}
-        />
-        {preset?.group === 'brand' && selection.kind === 'preset' && (
-          <FieldRow>
-            <ColorField
-              label={flatBrands ? 'Logo colour' : 'Badge colour'}
-              value={selection.color ?? preset.defaultColor}
-              onChange={(color) => pickPreset(preset.id, color)}
-            />
-          </FieldRow>
-        )}
-      </Section>
-
-      {logo.src && (
-        <Section title="Placement">
-          <Slider
-            label="Size"
-            value={logo.size}
-            min={0.1}
-            max={0.35}
-            step={0.01}
-            format={(v) => `${Math.round(v * 100)}%`}
-            onChange={(size) => update({ size })}
-          />
-          <Slider
-            label="Padding"
-            value={logo.padding}
-            min={0}
-            max={4}
-            step={0.25}
-            format={(v) => `${v} modules`}
-            onChange={(padding) => update({ padding })}
-          />
-          <Segmented
-            label="Logo backdrop"
-            value={logo.shape}
-            options={LOGO_SHAPES.map((s) => ({ value: s, label: LOGO_SHAPE_LABELS[s] }))}
-            onChange={(shape) => update({ shape })}
-          />
-          {logo.shape !== 'none' && (
-            <ColorField
-              label="Backdrop colour"
-              value={logo.background}
-              onChange={(background) => update({ background })}
-            />
-          )}
-          <Switch
-            label="Clear dots behind logo"
-            description="Removes modules under the logo for a cleaner look."
-            checked={logo.excavate}
-            onChange={(excavate) => update({ excavate })}
-          />
-        </Section>
-      )}
     </>
   );
 }

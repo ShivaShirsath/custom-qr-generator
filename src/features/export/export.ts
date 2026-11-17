@@ -76,9 +76,9 @@ export function sanitizeFileName(name: string): string {
 export async function exportQr(
   matrix: QrMatrix,
   design: QrDesign,
-  settings: Pick<ExportSettings, 'format' | 'size' | 'transparent'>,
+  settings: Pick<ExportSettings, 'format' | 'size'>,
 ): Promise<Blob> {
-  const transparent = settings.transparent && supportsTransparency(settings.format);
+  const transparent = design.background.transparent && supportsTransparency(settings.format);
   const { svg, width, height } = renderMatrixSvg(matrix, design, {
     width: settings.size,
     transparent,

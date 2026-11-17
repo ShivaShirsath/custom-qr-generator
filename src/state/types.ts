@@ -8,7 +8,6 @@ export interface ExportSettings {
   format: ExportFormat;
   /** Output width in pixels for raster formats. */
   size: number;
-  transparent: boolean;
   fileName: string;
 }
 
@@ -24,6 +23,8 @@ export interface AppConfig {
   logo: LogoSelection;
   /** Show brand presets as flat marks instead of clay badges. */
   flatBrands: boolean;
+  /** Restyle the code and logo to match the content (with a keep/undo prompt). */
+  autoStyle: boolean;
   exportSettings: ExportSettings;
 }
 
@@ -34,9 +35,17 @@ export type Action =
       contentType: ContentType;
       patch: Partial<ContentValues[ContentType]>;
     }
-  | { type: 'design/update'; update: (design: QrDesign) => QrDesign }
+  | {
+      type: 'design/update';
+      update: (design: QrDesign) => QrDesign;
+      /** Edits sharing a group within a short window become one undo step. */
+      group?: string;
+    }
   | { type: 'logo/set'; selection: LogoSelection; src: string | null }
   /** `src` re-renders the current brand logo in the new style, when one is selected. */
   | { type: 'logo/flatBrands'; flat: boolean; src?: string }
   | { type: 'export/update'; patch: Partial<ExportSettings> }
+  | { type: 'autoStyle/set'; enabled: boolean }
+  /** Replaces design and logo together, e.g. to apply or revert a smart suggestion. */
+  | { type: 'look/replace'; design: QrDesign; logo: LogoSelection }
   | { type: 'reset' };
