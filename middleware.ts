@@ -9,7 +9,9 @@ import { handleRateLimit } from './server/rate-limit';
 export const config = {
   // Everything except static files: hashed build assets and the files in public/.
   // Page routes and /api/* are matched. Uses the documented Next-style negative lookahead.
-  matcher: ['/((?!assets/|favicon\\.svg|manifest\\.webmanifest|robots\\.txt|theme-init\\.js).*)'],
+  matcher: [
+    '/((?!assets/|favicon\\.svg|manifest\\.webmanifest|robots\\.txt|theme-init\\.js|sw\\.js|icon-|apple-touch-icon).*)',
+  ],
 };
 
 /** Rate-limits the request, or passes it through with `RateLimit-*` headers. */

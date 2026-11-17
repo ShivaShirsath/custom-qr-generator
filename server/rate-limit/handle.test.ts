@@ -245,6 +245,10 @@ describe('middleware matcher', () => {
       '/manifest.webmanifest',
       '/robots.txt',
       '/theme-init.js',
+      '/sw.js',
+      '/icon-192.png',
+      '/icon-maskable-512.png',
+      '/apple-touch-icon.png',
     ]) {
       expect(re.test(path), path).toBe(false);
     }
