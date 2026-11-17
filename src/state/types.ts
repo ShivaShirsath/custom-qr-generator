@@ -15,7 +15,7 @@ export interface ExportSettings {
 /** Which logo the user picked; the image itself lives in `design.logo.src`. */
 export type LogoSelection =
   | { kind: 'none' }
-  | { kind: 'preset'; id: string; color: string | null }
+  | { kind: 'preset'; id: string; color: string | null; plain: boolean }
   | { kind: 'upload'; name: string };
 
 export interface AppConfig {

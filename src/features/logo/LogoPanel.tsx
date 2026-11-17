@@ -44,14 +44,14 @@ export function LogoPanel() {
   const update = (patch: Partial<QrDesign['logo']>) =>
     dispatch({ type: 'design/update', update: (d) => ({ ...d, logo: { ...d.logo, ...patch } }) });
 
-  const pickPreset = (id: string, color: string | null = null) => {
+  const pickPreset = (id: string, color: string | null = null, plain = false) => {
     const preset = findLogoPreset(id);
     if (!preset) return;
     setError(null);
     dispatch({
       type: 'logo/set',
-      selection: { kind: 'preset', id, color },
-      src: presetDataUrl(preset, color),
+      selection: { kind: 'preset', id, color, plain },
+      src: presetDataUrl(preset, color, plain),
     });
   };
 
@@ -146,14 +146,22 @@ export function LogoPanel() {
           onChange={(id) => pickPreset(id)}
           minTileWidth={64}
         />
-        {preset && selection.kind === 'preset' && (
-          <FieldRow>
-            <ColorField
-              label="Logo colour"
-              value={selection.color ?? preset.defaultColor}
-              onChange={(color) => pickPreset(preset.id, color)}
+        {preset?.group === 'brand' && selection.kind === 'preset' && (
+          <>
+            <Switch
+              label="Plain mark"
+              description="Use the bare logo instead of the clay badge."
+              checked={selection.plain}
+              onChange={(plain) => pickPreset(preset.id, selection.color, plain)}
             />
-          </FieldRow>
+            <FieldRow>
+              <ColorField
+                label={selection.plain ? 'Logo colour' : 'Badge colour'}
+                value={selection.color ?? preset.defaultColor}
+                onChange={(color) => pickPreset(preset.id, color, selection.plain)}
+              />
+            </FieldRow>
+          </>
         )}
       </Section>
 

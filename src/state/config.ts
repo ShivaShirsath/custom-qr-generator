@@ -80,7 +80,12 @@ function hydrateLogo(input: unknown, hasSrc: boolean): LogoSelection {
   if (!hasSrc || typeof input !== 'object' || input === null) return { kind: 'none' };
   const v = input as Record<string, unknown>;
   if (v.kind === 'preset' && typeof v.id === 'string') {
-    return { kind: 'preset', id: v.id, color: typeof v.color === 'string' ? v.color : null };
+    return {
+      kind: 'preset',
+      id: v.id,
+      color: typeof v.color === 'string' ? v.color : null,
+      plain: v.plain === true,
+    };
   }
   if (v.kind === 'upload') return { kind: 'upload', name: String(v.name ?? 'logo') };
   return { kind: 'none' };
