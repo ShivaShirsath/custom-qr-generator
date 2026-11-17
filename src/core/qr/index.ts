@@ -7,3 +7,5 @@ export { assessScannability, logoCoverage, RECOVERY_CAPACITY } from './health';
 export type { HealthCheck, HealthLevel, HealthReport } from './health';
 export { isSafeLogoSrc } from './logo';
 export { SCALABLE_DOT_STYLES, dotsPath, eyeBallPath, eyeFramePath } from './shapes';
+export { designSchema, paintSchema, parseDesign, type DesignParseResult } from './schema';
+export { mergeDeep, type DeepPartial } from './merge';
