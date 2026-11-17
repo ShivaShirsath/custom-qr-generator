@@ -1,19 +1,6 @@
-import {
-  AtSign,
-  Bitcoin,
-  CalendarDays,
-  ContactRound,
-  IndianRupee,
-  Link2,
-  MapPin,
-  MessageCircle,
-  MessageSquareText,
-  Phone,
-  Type,
-  Wifi,
-  type LucideIcon,
-} from 'lucide-react';
 import type { ComponentType } from 'react';
+
+import { ClayIcon } from '@/components/illustrations';
 
 import { CONTENT_TYPES, buildContent, type ContentType, type ContentValues } from '@/core/content';
 import { Section } from '@/components/ui';
@@ -24,19 +11,19 @@ import styles from './Content.module.css';
 import * as Forms from './forms';
 import type { FormProps } from './forms';
 
-const TYPES: Record<ContentType, { label: string; icon: LucideIcon }> = {
-  url: { label: 'Link', icon: Link2 },
-  text: { label: 'Text', icon: Type },
-  email: { label: 'Email', icon: AtSign },
-  phone: { label: 'Call', icon: Phone },
-  sms: { label: 'SMS', icon: MessageSquareText },
-  whatsapp: { label: 'WhatsApp', icon: MessageCircle },
-  wifi: { label: 'Wi-Fi', icon: Wifi },
-  vcard: { label: 'Contact', icon: ContactRound },
-  event: { label: 'Event', icon: CalendarDays },
-  location: { label: 'Location', icon: MapPin },
-  upi: { label: 'UPI', icon: IndianRupee },
-  crypto: { label: 'Crypto', icon: Bitcoin },
+const LABELS: Record<ContentType, string> = {
+  url: 'Link',
+  text: 'Text',
+  email: 'Email',
+  phone: 'Call',
+  sms: 'SMS',
+  whatsapp: 'WhatsApp',
+  wifi: 'Wi-Fi',
+  vcard: 'Contact',
+  event: 'Event',
+  location: 'Location',
+  upi: 'UPI',
+  crypto: 'Crypto',
 };
 
 const FORMS: { [K in ContentType]: ComponentType<FormProps<K>> } = {
@@ -74,7 +61,6 @@ export function ContentPanel() {
           onKeyDown={(e) => handleRadioKeys(e, CONTENT_TYPES, type, setType)}
         >
           {CONTENT_TYPES.map((t) => {
-            const { label, icon: Icon } = TYPES[t];
             return (
               <button
                 key={t}
@@ -86,15 +72,15 @@ export function ContentPanel() {
                 className={styles.type}
                 onClick={() => setType(t)}
               >
-                <Icon size={20} aria-hidden="true" />
-                {label}
+                <ClayIcon name={t} size={40} />
+                {LABELS[t]}
               </button>
             );
           })}
         </div>
       </Section>
 
-      <Section title={`${TYPES[type].label} details`}>
+      <Section title={`${LABELS[type]} details`}>
         <div className={styles.form}>
           <Form
             values={values[type]}

@@ -1,6 +1,7 @@
-import { Check, Copy, Download, QrCode } from 'lucide-react';
+import { Check, Copy, Download } from 'lucide-react';
 import { useDeferredValue, useMemo, useState } from 'react';
 
+import { BlobBuddy } from '@/components/illustrations';
 import { buildContent } from '@/core/content';
 import { assessScannability, encodeMatrix, QrEncodeError, renderMatrixSvg } from '@/core/qr';
 import { Button, Segmented, Slider, Switch, TextInput } from '@/components/ui';
@@ -97,7 +98,11 @@ export function PreviewPanel() {
   };
 
   return (
-    <aside className={cx('glass', styles.card)} aria-label="Preview and download">
+    <aside
+      className={cx('clay', styles.card)}
+      data-tone="lavender"
+      aria-label="Preview and download"
+    >
       <div
         className={cx(
           styles.stage,
@@ -109,7 +114,7 @@ export function PreviewPanel() {
           <img src={result.src} alt="QR code preview" width={340} height={340} />
         ) : (
           <div className={styles.empty} role="status">
-            <QrCode size={40} aria-hidden="true" />
+            <BlobBuddy size={110} />
             {result.error}
           </div>
         )}

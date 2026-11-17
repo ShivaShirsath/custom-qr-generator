@@ -1,0 +1,58 @@
+.bob {
+  animation: bob 3.6s ease-in-out infinite;
+}
+
+.wave {
+  transform-box: view-box;
+  transform-origin: 180px 124px;
+  animation: wave 2.4s ease-in-out infinite;
+}
+
+.twinkle,
+.twinkleSlow {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: twinkle 2.2s ease-in-out infinite;
+}
+
+.twinkleSlow {
+  animation-duration: 3.1s;
+  animation-delay: -1s;
+}
+
+@keyframes bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes wave {
+  0%,
+  60%,
+  100% {
+    transform: rotate(0deg);
+  }
+  15%,
+  45% {
+    transform: rotate(-14deg);
+  }
+  30% {
+    transform: rotate(8deg);
+  }
+}
+
+@keyframes twinkle {
+  0%,
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(0.75) rotate(18deg);
+    opacity: 0.7;
+  }
+}
