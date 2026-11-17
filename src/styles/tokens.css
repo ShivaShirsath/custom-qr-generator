@@ -83,6 +83,10 @@
   --glass-blur: 28px;
   /* Every surface (panels, tiles, buttons, popups) uses this background opacity. */
   --surface-alpha: 0.1;
+  /* Background animation colours: the original hues, softened toward neutral. */
+  --flow-1: #f7d4c1;
+  --flow-2: #bff7d5;
+  --flow-3: #d4bff9;
   /* Sticky header/footer need to hide content scrolling underneath. */
   --chrome-bg: rgba(255, 255, 255, 0.1);
   /* Translucency of clay tiles, trays and fields so the background glows through. */
@@ -128,6 +132,10 @@
 :root[data-theme='dark'] {
   color-scheme: dark;
 
+  --flow-1: #53362a;
+  --flow-2: #24533c;
+  --flow-3: #362459;
+
   --lavender: 84 70 156;
   --lavender-tint: 0 0 0;
   --lavender-deep: 40 30 96;
@@ -158,7 +166,7 @@
   --hairline: rgba(255, 255, 255, 0.09);
 
   --ink: #f2efff;
-  --on-tone: #ffffff;
+  --on-tone: #f6f3ff;
   --primary: #b7a3ff;
   --primary-strong: #cdbfff;
   --primary-soft: rgb(var(--lavender) / 0.1);
@@ -172,9 +180,9 @@
   --bad-soft: rgb(var(--coral));
 
   --bg: #13112a;
-  --text: #ffffff;
-  --text-muted: rgba(255, 255, 255, 0.94);
-  --text-subtle: rgba(255, 255, 255, 0.86);
+  --text: #f2efff;
+  --text-muted: #c9c5e8;
+  --text-subtle: #a7a2cf;
   --border: rgba(242, 239, 255, 0.08);
 
   --glass-bg: rgba(255, 255, 255, 0.1);

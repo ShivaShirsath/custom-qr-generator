@@ -6,7 +6,7 @@
   inset: 0;
   z-index: -1;
   pointer-events: none;
-  background: linear-gradient(120deg, #ff8844, #44ff88, #8844ff);
+  background: linear-gradient(120deg, var(--flow-1), var(--flow-2), var(--flow-3));
   background-size: 500%;
   background-repeat: no-repeat;
   animation: gradient 20s linear infinite;
