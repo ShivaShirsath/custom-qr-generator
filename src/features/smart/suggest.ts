@@ -9,6 +9,8 @@ export interface LookSuggestion {
   logoId: string;
   /** Accent colour for the code; brands use their own colour. */
   color?: string;
+  /** Brands are named products; icons describe a kind of content. */
+  kind: 'brand' | 'icon';
 }
 
 const BRAND_HOSTS: ReadonlyArray<[pattern: RegExp, id: string, label: string]> = [
@@ -38,12 +40,14 @@ const icon = (id: string, label: string, color: string): LookSuggestion => ({
   label,
   logoId: `icon:${id}`,
   color,
+  kind: 'icon',
 });
 
 const brand = (id: string, label: string): LookSuggestion => ({
   key: `brand:${id}`,
   label,
   logoId: `brand:${id}`,
+  kind: 'brand',
 });
 
 function suggestForUrl(raw: string): LookSuggestion | null {
@@ -69,7 +73,7 @@ function suggestForUpi(vpa: string): LookSuggestion {
   if (/^(ybl|ibl|axl)$/.test(handle)) return brand('phonepe', 'PhonePe');
   if (/^ok(axis|hdfcbank|icici|sbi)$/.test(handle)) return brand('googlepay', 'Google Pay');
   if (/^(paytm|pt(yes|hdfc|axis|sbi))$/.test(handle)) return brand('paytm', 'Paytm');
-  return icon('cart', 'payments', '#2f6fd6');
+  return icon('cart', 'payment', '#2f6fd6');
 }
 
 /** Picks a logo and accent colour that suit the current content, if any. */
@@ -81,19 +85,19 @@ export function suggestLook(content: ContentState): LookSuggestion | null {
     case 'email':
       return icon('mail', 'email', '#2f6fd6');
     case 'phone':
-      return icon('phone', 'calls', '#16805a');
+      return icon('phone', 'phone', '#16805a');
     case 'sms':
-      return icon('chat', 'messages', '#6c4fd8');
+      return icon('chat', 'message', '#6c4fd8');
     case 'whatsapp':
       return brand('whatsapp', 'WhatsApp');
     case 'wifi':
       return icon('wifi', 'Wi-Fi', '#2f6fd6');
     case 'vcard':
-      return icon('contact', 'contacts', '#c2571c');
+      return icon('contact', 'contact', '#c2571c');
     case 'event':
-      return icon('calendar', 'events', '#c8402f');
+      return icon('calendar', 'event', '#c8402f');
     case 'location':
-      return icon('pin', 'places', '#d1432f');
+      return icon('pin', 'location', '#d1432f');
     case 'upi':
       return suggestForUpi(v.upi.vpa);
     case 'crypto':

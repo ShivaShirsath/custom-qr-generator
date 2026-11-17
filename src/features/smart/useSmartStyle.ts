@@ -61,8 +61,14 @@ export function useSmartStyle(): void {
         key: 'smart-style',
         tone: 'info',
         icon: thumbnail(previewSrc),
-        title: `Make it match ${suggestion.label}?`,
-        description: `This looks like ${suggestion.label}. Apply a matching logo and colours?`,
+        title:
+          suggestion.kind === 'brand'
+            ? `Make it match ${suggestion.label}?`
+            : `Match the ${suggestion.label} style?`,
+        description:
+          suggestion.kind === 'brand'
+            ? `This looks like ${suggestion.label}. Apply a matching logo and colours?`
+            : `Adds the ${suggestion.label} icon and matching colours.`,
         duration: 12000,
         actions: [
           { label: 'Not now', onClick: () => undefined },
@@ -79,7 +85,10 @@ export function useSmartStyle(): void {
               toast.show({
                 key: 'smart-style',
                 tone: 'success',
-                title: `Styled for ${suggestion.label}`,
+                title:
+                  suggestion.kind === 'brand'
+                    ? `Styled for ${suggestion.label}`
+                    : `${suggestion.label[0]!.toUpperCase()}${suggestion.label.slice(1)} style applied`,
                 description: 'Logo and colours updated.',
                 actions: [
                   {
