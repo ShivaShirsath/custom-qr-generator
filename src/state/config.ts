@@ -5,17 +5,43 @@ import {
   WIFI_ENCRYPTIONS,
   type ContentState,
 } from '@/core/content';
-import { DEFAULT_DESIGN, mergeDeep, parseDesign } from '@/core/qr';
+import { DEFAULT_DESIGN, mergeDeep, parseDesign, type QrDesign } from '@/core/qr';
+import { DESIGN_PRESETS, applyPreset } from '@/features/design/presets';
+import { findLogoPreset, presetDataUrl } from '@/features/logo/presets';
 import { readStorage, writeStorage } from '@/lib/storage';
 
 import { EXPORT_FORMATS, type Action, type AppConfig, type LogoSelection } from './types';
 
-export const STORAGE_KEY = 'cqg:config:v1';
+export const STORAGE_KEY = 'cqg:config:v2';
 
+/** Placement applied whenever a logo is added to a code that had none. */
+export const LOGO_PLACEMENT: Pick<QrDesign['logo'], 'size' | 'padding' | 'shape' | 'excavate'> = {
+  size: 0.35,
+  padding: 0,
+  shape: 'none',
+  excavate: true,
+};
+
+const DEFAULT_LOGO_ID = 'icon:link';
+
+function defaultDesign(): QrDesign {
+  const violet = DESIGN_PRESETS.find((p) => p.id === 'violet');
+  const link = findLogoPreset(DEFAULT_LOGO_ID);
+  const styled = violet ? applyPreset(DEFAULT_DESIGN, violet) : DEFAULT_DESIGN;
+  return {
+    ...styled,
+    errorCorrection: 'H',
+    background: { ...styled.background, transparent: true },
+    logo: { ...styled.logo, ...LOGO_PLACEMENT, src: link ? presetDataUrl(link, null) : null },
+  };
+}
+
+/** First-run setup: a link with the Violet style, transparent background and a link icon. */
 export const DEFAULT_CONFIG: AppConfig = {
   content: DEFAULT_CONTENT,
-  design: DEFAULT_DESIGN,
-  logo: { kind: 'none' },
+  design: defaultDesign(),
+  logo: { kind: 'preset', id: DEFAULT_LOGO_ID, color: null },
+  flatBrands: true,
   exportSettings: { format: 'png', size: 1024, transparent: false, fileName: 'qr-code' },
 };
 
@@ -42,14 +68,26 @@ export function configReducer(state: AppConfig, action: Action): AppConfig {
       const level = state.design.errorCorrection;
       // Logos hide modules, so nudge low error correction up to H when one is added.
       const errorCorrection = action.src && (level === 'L' || level === 'M') ? 'H' : level;
+      const firstLogo = action.src !== null && state.design.logo.src === null;
       return {
         ...state,
         logo: action.selection,
         design: {
           ...state.design,
           errorCorrection,
-          logo: { ...state.design.logo, src: action.src },
+          logo: { ...state.design.logo, ...(firstLogo ? LOGO_PLACEMENT : {}), src: action.src },
         },
+      };
+    }
+    case 'logo/flatBrands': {
+      const { flat, src } = action;
+      return {
+        ...state,
+        flatBrands: flat,
+        design:
+          src === undefined
+            ? state.design
+            : { ...state.design, logo: { ...state.design.logo, src } },
       };
     }
     case 'export/update':
@@ -80,12 +118,7 @@ function hydrateLogo(input: unknown, hasSrc: boolean): LogoSelection {
   if (!hasSrc || typeof input !== 'object' || input === null) return { kind: 'none' };
   const v = input as Record<string, unknown>;
   if (v.kind === 'preset' && typeof v.id === 'string') {
-    return {
-      kind: 'preset',
-      id: v.id,
-      color: typeof v.color === 'string' ? v.color : null,
-      plain: v.plain === true,
-    };
+    return { kind: 'preset', id: v.id, color: typeof v.color === 'string' ? v.color : null };
   }
   if (v.kind === 'upload') return { kind: 'upload', name: String(v.name ?? 'logo') };
   return { kind: 'none' };
@@ -105,6 +138,7 @@ export function loadConfig(): AppConfig {
       content: hydrateContent(saved.content),
       design,
       logo: hydrateLogo(saved.logo, design.logo.src !== null),
+      flatBrands: typeof saved.flatBrands === 'boolean' ? saved.flatBrands : true,
       exportSettings,
     };
   } catch {

@@ -89,10 +89,10 @@ export function assessScannability(matrix: QrMatrix, design: QrDesign): HealthRe
     const load = coverage / capacity;
     checks.push({
       id: 'logo',
-      level: load <= 0.55 ? 'good' : load <= 0.85 ? 'warn' : 'bad',
+      level: load <= 0.7 ? 'good' : load <= 0.95 ? 'warn' : 'bad',
       title: `Logo covers ${(coverage * 100).toFixed(0)}%`,
       detail:
-        load <= 0.55
+        load <= 0.7
           ? `Well within what level ${design.errorCorrection} can recover.`
           : `Close to the ${(capacity * 100).toFixed(0)}% level ${design.errorCorrection} can recover. Shrink the logo or raise error correction.`,
     });

@@ -20,12 +20,17 @@ import styles from './Logo.module.css';
 import { LOGO_PRESETS, findLogoPreset, presetDataUrl, type LogoPreset } from './presets';
 import { ACCEPT_ATTR, prepareLogo } from './upload';
 
-function presetOptions(group: LogoPreset['group']) {
+function presetOptions(group: LogoPreset['group'], flat = false) {
   return LOGO_PRESETS.filter((p) => p.group === group).map((p) => ({
     value: p.id,
     label: p.label,
     preview: (
-      <img className={styles.logoTile} src={presetDataUrl(p, null)} alt="" draggable={false} />
+      <img
+        className={styles.logoTile}
+        src={presetDataUrl(p, null, flat)}
+        alt=""
+        draggable={false}
+      />
     ),
   }));
 }
@@ -39,19 +44,32 @@ export function LogoPanel() {
   const [error, setError] = useState<string | null>(null);
 
   const icons = useMemo(() => presetOptions('icon'), []);
-  const brands = useMemo(() => presetOptions('brand'), []);
+  const { flatBrands } = config;
+  const brands = useMemo(() => presetOptions('brand', flatBrands), [flatBrands]);
 
   const update = (patch: Partial<QrDesign['logo']>) =>
     dispatch({ type: 'design/update', update: (d) => ({ ...d, logo: { ...d.logo, ...patch } }) });
 
-  const pickPreset = (id: string, color: string | null = null, plain = false) => {
+  const pickPreset = (id: string, color: string | null = null) => {
     const preset = findLogoPreset(id);
     if (!preset) return;
     setError(null);
     dispatch({
       type: 'logo/set',
-      selection: { kind: 'preset', id, color, plain },
-      src: presetDataUrl(preset, color, plain),
+      selection: { kind: 'preset', id, color },
+      src: presetDataUrl(preset, color, preset.group === 'brand' && flatBrands),
+    });
+  };
+
+  const setFlatBrands = (flat: boolean) => {
+    const current = selection.kind === 'preset' ? findLogoPreset(selection.id) : undefined;
+    dispatch({
+      type: 'logo/flatBrands',
+      flat,
+      src:
+        current?.group === 'brand' && selection.kind === 'preset'
+          ? presetDataUrl(current, selection.color, flat)
+          : undefined,
     });
   };
 
@@ -139,6 +157,12 @@ export function LogoPanel() {
       </Section>
 
       <Section title="Brands">
+        <Switch
+          label="Flat brand logos"
+          description="Show the bare brand marks instead of clay badges."
+          checked={flatBrands}
+          onChange={setFlatBrands}
+        />
         <OptionGrid
           label="Brand logos"
           value={selectedId}
@@ -147,21 +171,13 @@ export function LogoPanel() {
           minTileWidth={64}
         />
         {preset?.group === 'brand' && selection.kind === 'preset' && (
-          <>
-            <Switch
-              label="Plain mark"
-              description="Use the bare logo instead of the clay badge."
-              checked={selection.plain}
-              onChange={(plain) => pickPreset(preset.id, selection.color, plain)}
+          <FieldRow>
+            <ColorField
+              label={flatBrands ? 'Logo colour' : 'Badge colour'}
+              value={selection.color ?? preset.defaultColor}
+              onChange={(color) => pickPreset(preset.id, color)}
             />
-            <FieldRow>
-              <ColorField
-                label={selection.plain ? 'Logo colour' : 'Badge colour'}
-                value={selection.color ?? preset.defaultColor}
-                onChange={(color) => pickPreset(preset.id, color, selection.plain)}
-              />
-            </FieldRow>
-          </>
+          </FieldRow>
         )}
       </Section>
 

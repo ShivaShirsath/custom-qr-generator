@@ -106,7 +106,7 @@ export function PreviewPanel() {
       <div
         className={cx(
           styles.stage,
-          (config.design.background.transparent || settings.transparent) && 'checkerboard',
+          (config.design.background.transparent || settings.transparent) && styles.checker,
           stale && styles.stale,
         )}
       >
