@@ -1,0 +1,9 @@
+export * from './types';
+export * from './color';
+export { DEFAULT_DESIGN, solid } from './defaults';
+export { encodeMatrix, isFinderModule, MAX_DATA_LENGTH, QrEncodeError } from './matrix';
+export { renderMatrixSvg, renderQrSvg } from './render';
+export { assessScannability, logoCoverage, RECOVERY_CAPACITY } from './health';
+export type { HealthCheck, HealthLevel, HealthReport } from './health';
+export { isSafeLogoSrc } from './logo';
+export { SCALABLE_DOT_STYLES, dotsPath, eyeBallPath, eyeFramePath } from './shapes';
