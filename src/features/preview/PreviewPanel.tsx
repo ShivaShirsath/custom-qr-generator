@@ -1,6 +1,7 @@
 import { Check, Copy, Download } from 'lucide-react';
 import { useDeferredValue, useMemo, useState } from 'react';
 
+import { useToast } from '@/components/feedback';
 import { BlobBuddy } from '@/components/illustrations';
 import { buildContent } from '@/core/content';
 import { assessScannability, encodeMatrix, QrEncodeError, renderMatrixSvg } from '@/core/qr';
@@ -32,7 +33,7 @@ export function PreviewPanel() {
   const { config, dispatch } = useConfig();
   const deferred = useDeferredValue(config);
   const stale = deferred !== config;
-  const [status, setStatus] = useState<string | null>(null);
+  const toast = useToast();
   const [busy, setBusy] = useState(false);
   const [copied, setCopied] = useState(false);
 
@@ -64,16 +65,23 @@ export function PreviewPanel() {
   const download = async () => {
     if (!ready) return;
     setBusy(true);
-    setStatus(null);
     try {
       const blob = await exportQr(result.matrix, config.design, {
         ...settings,
         transparent: settings.transparent || config.design.background.transparent,
       });
       downloadBlob(blob, `${sanitizeFileName(settings.fileName)}.${EXTENSION[settings.format]}`);
-      setStatus(`Saved ${FORMAT_LABELS[settings.format]} · ${(blob.size / 1024).toFixed(0)} KB`);
+      toast.show({
+        tone: 'success',
+        title: `${FORMAT_LABELS[settings.format]} downloaded`,
+        description: `${sanitizeFileName(settings.fileName)}.${EXTENSION[settings.format]} · ${(blob.size / 1024).toFixed(0)} KB`,
+      });
     } catch (e) {
-      setStatus(e instanceof Error ? e.message : 'Export failed.');
+      toast.show({
+        tone: 'error',
+        title: 'Download failed',
+        description: e instanceof Error ? e.message : 'Something went wrong while exporting.',
+      });
     } finally {
       setBusy(false);
     }
@@ -90,10 +98,14 @@ export function PreviewPanel() {
         }),
       );
       setCopied(true);
-      setStatus('Copied PNG to clipboard');
+      toast.show({ tone: 'success', title: 'Copied!', description: 'Paste the PNG anywhere.' });
       window.setTimeout(() => setCopied(false), 1800);
     } catch {
-      setStatus('Your browser blocked clipboard access.');
+      toast.show({
+        tone: 'error',
+        title: "Couldn't copy",
+        description: 'Your browser blocked clipboard access. Try downloading instead.',
+      });
     }
   };
 
@@ -141,12 +153,7 @@ export function PreviewPanel() {
           onChange={(size) => setExport({ size })}
         />
         <Switch
-          label="Transparent background"
-          description={
-            transparentAllowed
-              ? 'Only the code and logo are exported.'
-              : 'JPG does not support transparency.'
-          }
+          label={transparentAllowed ? 'Transparent background' : 'Transparent (not for JPG)'}
           checked={
             transparentAllowed && (settings.transparent || config.design.background.transparent)
           }
@@ -155,6 +162,8 @@ export function PreviewPanel() {
         />
         <TextInput
           label="File name"
+          hideLabel
+          placeholder="File name"
           value={settings.fileName}
           spellCheck={false}
           maxLength={80}
@@ -181,9 +190,8 @@ export function PreviewPanel() {
             />
           )}
         </div>
-        <p className={styles.status} role="status" aria-live="polite">
-          {status ??
-            (ready ? `Version ${result.matrix.version} · ${result.bytes} bytes encoded` : '')}
+        <p className={styles.status}>
+          {ready ? `Version ${result.matrix.version} · ${result.bytes} bytes encoded` : ''}
         </p>
       </div>
     </aside>

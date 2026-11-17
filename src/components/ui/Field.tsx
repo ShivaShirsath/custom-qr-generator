@@ -18,12 +18,23 @@ interface FieldProps {
   value?: ReactNode;
   children: ReactNode;
   className?: string;
+  /** Keep the label for assistive tech but hide it visually. */
+  hideLabel?: boolean;
 }
 
-export function Field({ label, htmlFor, hint, error, value, children, className }: FieldProps) {
+export function Field({
+  label,
+  htmlFor,
+  hint,
+  error,
+  value,
+  children,
+  className,
+  hideLabel = false,
+}: FieldProps) {
   return (
     <div className={cx(styles.field, className)}>
-      <div className={styles.labelRow}>
+      <div className={cx(styles.labelRow, hideLabel && 'visually-hidden')}>
         <label className={styles.label} htmlFor={htmlFor}>
           {label}
         </label>
@@ -47,6 +58,7 @@ type TextInputProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange' | '
   onValueChange: (value: string) => void;
   hint?: ReactNode;
   error?: string | null;
+  hideLabel?: boolean;
 };
 
 export function TextInput({
@@ -56,11 +68,19 @@ export function TextInput({
   hint,
   error,
   className,
+  hideLabel,
   ...rest
 }: TextInputProps) {
   const id = useId();
   return (
-    <Field label={label} htmlFor={id} hint={hint} error={error} className={className}>
+    <Field
+      label={label}
+      htmlFor={id}
+      hint={hint}
+      error={error}
+      className={className}
+      hideLabel={hideLabel}
+    >
       <input
         id={id}
         className={styles.input}
