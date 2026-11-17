@@ -1,0 +1,21 @@
+name: Bug report
+description: Something doesn't work as expected
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: Steps to reproduce, and what you expected instead.
+    validations:
+      required: true
+  - type: input
+    id: browser
+    attributes:
+      label: Browser and device
+      placeholder: Chrome 140 on Android
+  - type: textarea
+    id: scan
+    attributes:
+      label: Scanning problem?
+      description: If a code doesn't scan, attach the exported SVG and name the scanner app.
