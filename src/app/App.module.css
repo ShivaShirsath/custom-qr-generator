@@ -208,13 +208,29 @@
     0 1px 2px rgb(0 0 0 / 0.15);
 }
 
-.footnote {
+.fork {
+  --surface: var(--neutral);
+  --tint: var(--neutral-tint);
+  --tint-deep: var(--neutral-deep);
+
+  display: inline-flex;
   flex: none;
-  padding-right: var(--space-2);
-  color: var(--text-muted);
+  align-items: center;
+  gap: 6px;
+  min-height: 34px;
+  padding: 0 14px 0 12px;
+  border-radius: var(--radius-pill);
+  background: rgb(var(--surface) / var(--surface-alpha));
+  box-shadow: var(--clay-sm);
+  color: var(--text);
   font-size: var(--text-xs);
-  font-weight: 700;
-  white-space: nowrap;
+  font-weight: 900;
+  text-decoration: none;
+  transition: transform var(--duration) var(--ease);
+}
+
+.fork:hover {
+  transform: translateY(-2px);
 }
 
 /* ---------- Phone action bar (footer on phones) ---------- */
@@ -244,7 +260,7 @@
 /* ---------- Phones ---------- */
 @media (max-width: 639px) {
   .introText,
-  .footnote,
+  .fork,
   .chips {
     display: none;
   }

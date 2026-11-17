@@ -8,7 +8,7 @@ import { ThemeToggle } from '@/app/ThemeToggle';
 import { ToastProvider, TooltipLayer } from '@/components/feedback';
 import { QrBuddy } from '@/components/illustrations';
 import { Button } from '@/components/ui';
-import { REPO_URL } from '@/config';
+import { FORK_URL, REPO_URL } from '@/config';
 import { PreviewPanel } from '@/features/preview/PreviewPanel';
 import { PreviewProvider } from '@/features/preview/PreviewProvider';
 import { useSmartStyle } from '@/features/smart/useSmartStyle';
@@ -88,15 +88,16 @@ function Shell() {
               </li>
             ))}
           </ul>
-          <p className={styles.footnote}>
-            Runs in your browser · MIT
-            {REPO_URL && (
-              <>
-                {' · '}
-                <a href={REPO_URL}>GitHub</a>
-              </>
-            )}
-          </p>
+          <a
+            className={styles.fork}
+            href={FORK_URL}
+            target="_blank"
+            rel="noreferrer noopener"
+            data-tip="Fork on GitHub: it's free and open source"
+          >
+            <GithubIcon size={16} />
+            Fork
+          </a>
         </footer>
       </div>
     </>
