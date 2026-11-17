@@ -36,6 +36,12 @@
   box-shadow: var(--clay);
 }
 
+.clay:not([data-tone]) {
+  background: rgb(var(--surface) / var(--tile-alpha));
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+
 .clay:not(:disabled):hover,
 .primary:not(:disabled):hover {
   transform: translateY(-2px);

@@ -11,6 +11,13 @@
   animation: flow 14s linear infinite;
 }
 
+.backdrop::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--bg-scrim);
+}
+
 @keyframes flow {
   0%,
   100% {
@@ -231,7 +238,7 @@
   gap: 6px;
   padding: 5px 12px 5px 9px;
   border-radius: var(--radius-pill);
-  background: rgb(var(--surface) / var(--tile-alpha));
+  background: rgb(var(--surface) / 0.45);
   box-shadow: var(--clay-sm);
   color: var(--on-tone);
   font-size: var(--text-xs);

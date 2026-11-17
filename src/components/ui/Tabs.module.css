@@ -50,7 +50,7 @@
 
 .tab[aria-selected='true'] {
   color: var(--on-tone);
-  background: rgb(var(--surface) / var(--tile-alpha));
+  background: rgb(var(--surface) / var(--selected-alpha));
   box-shadow: var(--clay-sm);
 }
 

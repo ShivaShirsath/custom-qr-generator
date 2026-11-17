@@ -10,14 +10,14 @@
 
 /* Frosted lavender glass instead of solid clay. */
 :global(.clay).card {
-  background: rgb(var(--surface) / 0.55);
+  background: rgb(var(--surface) / 0.12);
   border: 1px solid rgb(255 255 255 / 0.45);
   -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(170%);
   backdrop-filter: blur(var(--glass-blur)) saturate(170%);
 }
 
 :global([data-theme='dark']) :global(.clay).card {
-  background: rgb(var(--surface) / 0.5);
+  background: rgb(var(--surface) / 0.1);
   border-color: rgb(255 255 255 / 0.1);
 }
 
@@ -102,7 +102,7 @@
   padding: 6px 16px 6px 8px;
   border: 0;
   border-radius: var(--radius-pill);
-  background: rgb(var(--surface) / var(--tile-alpha));
+  background: rgb(var(--surface) / var(--selected-alpha));
   box-shadow: var(--clay-sm);
   color: var(--on-tone);
   font-size: var(--text-sm);

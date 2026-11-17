@@ -62,9 +62,6 @@
   min-width: 0;
   font-size: var(--text-sm);
   font-weight: 800;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
 .groupLabel {
@@ -86,4 +83,11 @@
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
   align-items: end;
   gap: var(--space-3) var(--space-4);
+}
+
+/* Dark marks (X, TikTok, GitHub…) need a light backing on dark, see-through tiles. */
+:global([data-theme='dark']) .logoTile {
+  padding: 4px;
+  border-radius: 12px;
+  background: rgb(255 255 255 / 0.92);
 }
