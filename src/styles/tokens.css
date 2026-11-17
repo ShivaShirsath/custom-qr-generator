@@ -50,6 +50,8 @@
   --tint-deep: var(--neutral-deep);
   --highlight: 0.85;
   --shade: 0.3;
+  /* Crisp 1px edge drawn around clay surfaces. */
+  --hairline: rgba(43, 41, 102, 0.12);
 
   /* Semantic colours */
   --ink: #2b2966;
@@ -71,21 +73,27 @@
   --bg-blob-1: #d9cbfb;
   --bg-blob-2: #c6f0dd;
   --bg-blob-3: #ffe0cf;
+  /* Slowly panning page gradient. */
+  --bg-flow: linear-gradient(120deg, #ffb48c, #7fe3b4, #a98bff);
   --text: #2b2966;
   --text-muted: #615e93;
   --text-subtle: #8f8cb8;
   --border: rgba(43, 41, 102, 0.09);
 
   /* Glass containers */
-  --glass-bg: rgba(255, 255, 255, 0.6);
+  --glass-bg: rgba(255, 255, 255, 0.4);
   --glass-border: rgba(255, 255, 255, 0.85);
   --glass-highlight: rgba(255, 255, 255, 0.95);
   --glass-shadow: 0 24px 60px -28px rgba(110, 90, 200, 0.45), 0 2px 6px rgba(110, 90, 200, 0.06);
-  --glass-blur: 22px;
+  --glass-blur: 28px;
+  /* Sticky header/footer need to hide content scrolling underneath. */
+  --chrome-bg: rgba(255, 255, 255, 0.55);
+  /* Translucency of clay tiles, trays and fields so the background glows through. */
+  --tile-alpha: 0.62;
 
   /* Fields */
-  --input-bg: #fbfaff;
-  --input-border: rgba(43, 41, 102, 0.08);
+  --input-bg: rgba(255, 255, 255, 0.6);
+  --input-border: rgba(43, 41, 102, 0.16);
   --focus-ring: 0 0 0 4px rgba(139, 108, 240, 0.4);
   --checker-a: #ffffff;
   --checker-b: #efebfb;
@@ -148,6 +156,7 @@
 
   --highlight: 0.16;
   --shade: 0.45;
+  --hairline: rgba(255, 255, 255, 0.09);
 
   --ink: #f2efff;
   --on-tone: #f6f3ff;
@@ -167,18 +176,21 @@
   --bg-blob-1: #3d2f86;
   --bg-blob-2: #155a46;
   --bg-blob-3: #6b3a2a;
+  --bg-flow: linear-gradient(120deg, #6b3410, #0e5c3f, #3f22a0);
   --text: #f2efff;
   --text-muted: #b6b1df;
   --text-subtle: #8580b3;
   --border: rgba(242, 239, 255, 0.08);
 
-  --glass-bg: rgba(32, 29, 62, 0.6);
+  --glass-bg: rgba(24, 21, 50, 0.42);
   --glass-border: rgba(255, 255, 255, 0.08);
   --glass-highlight: rgba(255, 255, 255, 0.1);
   --glass-shadow: 0 28px 60px -28px rgba(0, 0, 0, 0.8), 0 2px 8px rgba(0, 0, 0, 0.25);
+  --chrome-bg: rgba(24, 21, 50, 0.55);
+  --tile-alpha: 0.55;
 
-  --input-bg: rgba(10, 8, 30, 0.45);
-  --input-border: rgba(242, 239, 255, 0.1);
+  --input-bg: rgba(10, 8, 30, 0.35);
+  --input-border: rgba(242, 239, 255, 0.14);
   --focus-ring: 0 0 0 4px rgba(183, 163, 255, 0.45);
   --checker-a: #2a2750;
   --checker-b: #221f44;

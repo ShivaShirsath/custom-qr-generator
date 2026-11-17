@@ -5,13 +5,27 @@
   z-index: -1;
   overflow: hidden;
   pointer-events: none;
+  /* A wide gradient panned slowly back and forth behind the glass. */
+  background: var(--bg-flow);
+  background-size: 500% 500%;
+  animation: flow 14s linear infinite;
+}
+
+@keyframes flow {
+  0%,
+  100% {
+    background-position: 0% 0%;
+  }
+  50% {
+    background-position: 100% 100%;
+  }
 }
 
 .blob {
   position: absolute;
   border-radius: 50%;
   filter: blur(90px);
-  opacity: 0.55;
+  opacity: 0.22;
   animation: float 26s ease-in-out infinite alternate;
 }
 
@@ -69,6 +83,11 @@
 }
 
 /* ---------- Header ---------- */
+.header,
+.footer {
+  background: var(--chrome-bg);
+}
+
 .header {
   position: sticky;
   top: var(--shell-gap);
@@ -81,29 +100,11 @@
   border-radius: var(--radius-lg);
 }
 
-.brand {
-  display: flex;
-  flex: none;
-  align-items: center;
-  gap: var(--space-3);
-  color: var(--text);
-  text-decoration: none;
-  font-weight: 900;
-  font-size: var(--text-lg);
-}
-
-.brand img {
-  width: 40px;
-  height: 40px;
-  border-radius: 13px;
-  box-shadow: 0 8px 16px -6px rgba(139, 108, 240, 0.6);
-}
-
 .intro {
   display: flex;
   flex: 1;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   gap: var(--space-2);
   min-width: 0;
 }
@@ -152,6 +153,11 @@
   gap: var(--space-2);
 }
 
+.history {
+  display: flex;
+  gap: 6px;
+}
+
 /* ---------- Main ---------- */
 .layout {
   display: grid;
@@ -167,6 +173,7 @@
 }
 
 .editor {
+  container: editor / inline-size;
   display: grid;
   grid-template-rows: auto minmax(0, 1fr);
   gap: var(--space-4);
@@ -205,10 +212,12 @@
   gap: var(--space-2);
   min-width: 0;
   margin: 0;
-  padding: 2px;
+  padding: 2px 24px 2px 2px;
   list-style: none;
   overflow-x: auto;
   scrollbar-width: none;
+  /* Soft edge hints that the chips scroll when they don't fit. */
+  mask-image: linear-gradient(90deg, #000 calc(100% - 22px), transparent);
 }
 
 .chips::-webkit-scrollbar {
@@ -222,7 +231,7 @@
   gap: 6px;
   padding: 5px 12px 5px 9px;
   border-radius: var(--radius-pill);
-  background: rgb(var(--surface));
+  background: rgb(var(--surface) / var(--tile-alpha));
   box-shadow: var(--clay-sm);
   color: var(--on-tone);
   font-size: var(--text-xs);
@@ -249,16 +258,44 @@
   white-space: nowrap;
 }
 
+/* ---------- Phone action bar (footer on phones) ---------- */
+.actionBar {
+  display: none;
+  flex: 1;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.thumb {
+  flex: none;
+  width: 48px;
+  height: 48px;
+  padding: 4px;
+  border: 0;
+  border-radius: 14px;
+  background: #ffffff;
+  box-shadow: var(--clay-sm);
+}
+
+.thumb img {
+  width: 100%;
+  height: 100%;
+}
+
 /* ---------- Phones ---------- */
 @media (max-width: 639px) {
-  .brandName,
   .introText,
-  .footnote {
+  .footnote,
+  .chips {
     display: none;
   }
 
-  .intro {
-    justify-content: flex-start;
+  .actionBar {
+    display: flex;
+  }
+
+  .history :global(button) {
+    min-height: 34px;
   }
 
   .header {
@@ -268,13 +305,6 @@
   .editor {
     padding: var(--space-3);
     border-radius: var(--radius-lg);
-  }
-}
-
-/* ---------- Small tablets: show the greeting, keep the title short ---------- */
-@media (min-width: 640px) and (max-width: 899px) {
-  .brandName {
-    display: none;
   }
 }
 

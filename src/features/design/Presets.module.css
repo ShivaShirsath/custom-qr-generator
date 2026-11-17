@@ -1,7 +1,7 @@
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(92px, 1fr));
-  gap: var(--space-3);
+  grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
+  gap: var(--space-2);
 }
 
 .preset {
@@ -10,11 +10,11 @@
   --tint-deep: var(--neutral-deep);
 
   display: grid;
-  gap: 8px;
-  padding: 10px;
+  gap: 4px;
+  padding: 6px 6px 5px;
   border: 0;
   border-radius: var(--radius-lg);
-  background: rgb(var(--surface));
+  background: rgb(var(--surface) / var(--tile-alpha));
   box-shadow: var(--clay-sm);
   color: var(--text-muted);
   font-size: var(--text-xs);
@@ -34,7 +34,7 @@
 .preset img {
   width: 100%;
   aspect-ratio: 1;
-  border-radius: 14px;
+  border-radius: 10px;
 }
 
 .palettes {

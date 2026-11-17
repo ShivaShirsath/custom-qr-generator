@@ -8,7 +8,7 @@
   gap: 6px;
   padding: 6px;
   border-radius: var(--radius-pill);
-  background: rgb(var(--surface));
+  background: rgb(var(--surface) / var(--tile-alpha));
   box-shadow: var(--clay-sm);
   overflow-x: auto;
   scrollbar-width: none;
@@ -24,8 +24,8 @@
   align-items: center;
   justify-content: center;
   gap: 6px;
-  min-height: 38px;
-  padding: 0 14px;
+  min-height: 36px;
+  padding: 0 12px;
   border: 0;
   border-radius: var(--radius-pill);
   background: transparent;
@@ -46,7 +46,7 @@
 
 .segment[aria-checked='true'] {
   color: var(--on-tone);
-  background: rgb(var(--surface));
+  background: rgb(var(--surface) / var(--tile-alpha));
   box-shadow: var(--clay-sm);
 }
 
@@ -57,8 +57,8 @@
 /* Tile grid */
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(var(--tile-min, 84px), 1fr));
-  gap: var(--space-3);
+  grid-template-columns: repeat(auto-fill, minmax(var(--tile-min, 72px), 1fr));
+  gap: var(--space-2);
 }
 
 .tile {
@@ -68,11 +68,11 @@
 
   display: grid;
   justify-items: center;
-  gap: 8px;
-  padding: 12px 6px 10px;
+  gap: 4px;
+  padding: 8px 4px 6px;
   border: 0;
   border-radius: var(--radius-md);
-  background: rgb(var(--surface));
+  background: rgb(var(--surface) / var(--tile-alpha));
   box-shadow: var(--clay-sm);
   color: var(--text-muted);
   font-size: var(--text-xs);
@@ -102,7 +102,7 @@
   place-items: center;
   width: 100%;
   aspect-ratio: 1;
-  max-width: 54px;
+  max-width: 44px;
   color: var(--ink);
 }
 
@@ -112,5 +112,9 @@
 }
 
 .tileLabel {
+  max-width: 100%;
+  overflow: hidden;
   line-height: 1.2;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }

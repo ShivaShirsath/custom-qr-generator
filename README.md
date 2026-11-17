@@ -13,7 +13,11 @@ Codes are static. The content is written straight into the code: no short links,
 - **Frames**: caption, box and badge frames with your own call to action
 - **Export**: SVG, PNG, JPG or WebP at 256–4096 px, with or without background, or copy to the clipboard
 - **Scan check**: live warnings for contrast, inverted colours, logo coverage, quiet zone, dot size and density
-- **Themes**: light, dark or follow the system
+- **Smart suggestions**: paste a WhatsApp, Instagram, YouTube or other known link (or pick Wi-Fi, UPI, a contact…) and get a matching logo and colours, with a preview, to apply or skip
+- **Undo and redo** for every change, plus a "Surprise me" style shuffle
+- **Keyboard shortcuts**: ⌘/Ctrl+Z undo, ⇧⌘Z or Ctrl+Y redo, ⌘/Ctrl+S download
+- **Themes**: light, dark or follow the system, on an animated gradient background
+- **Fits the screen**: no page scrolling on laptops and desktops; phones get a sticky download bar
 - **Public API**: `GET /api/qr` returns an SVG, handy for scripts and other apps
 - **IP rate limiting** with a private bypass for the site owner
 

@@ -8,7 +8,7 @@
   gap: 6px;
   padding: 8px;
   border-radius: var(--radius-lg);
-  background: rgb(var(--surface));
+  background: rgb(var(--surface) / var(--tile-alpha));
   box-shadow: var(--clay);
   overflow-x: auto;
   scrollbar-width: none;
@@ -50,11 +50,12 @@
 
 .tab[aria-selected='true'] {
   color: var(--on-tone);
-  background: rgb(var(--surface));
+  background: rgb(var(--surface) / var(--tile-alpha));
   box-shadow: var(--clay-sm);
 }
 
-@media (max-width: 560px) {
+/* Compact tabs whenever the editor itself is narrow (tablets, phones). */
+@container editor (max-width: 560px) {
   .list {
     gap: 2px;
     padding: 5px;
