@@ -45,7 +45,7 @@ export function Segmented<T extends string>({
           aria-checked={o.value === value}
           tabIndex={o.value === value ? 0 : -1}
           disabled={o.disabled}
-          title={o.title}
+          data-tip={o.title}
           className={styles.segment}
           onClick={() => onChange(o.value)}
         >

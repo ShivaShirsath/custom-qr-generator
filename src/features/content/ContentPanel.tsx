@@ -1,6 +1,7 @@
 import type { ComponentType } from 'react';
 
 import { ClayIcon } from '@/components/illustrations';
+import { OverflowText } from '@/components/text';
 
 import { CONTENT_TYPES, buildContent, type ContentType, type ContentValues } from '@/core/content';
 import { Section, Switch } from '@/components/ui';
@@ -73,7 +74,7 @@ export function ContentPanel() {
                 onClick={() => setType(t)}
               >
                 <ClayIcon name={t} size={36} />
-                {LABELS[t]}
+                <OverflowText text={LABELS[t]} />
               </button>
             );
           })}

@@ -10,6 +10,7 @@ import {
   renderQrSvg,
   type QrDesign,
 } from '@/core/qr';
+import { OverflowText } from '@/components/text';
 import { Button, Columns, FieldRow, OptionGrid, Section, Segmented, Slider } from '@/components/ui';
 import { svgDataUrl } from '@/lib/svg';
 import { useConfig } from '@/state';
@@ -85,7 +86,7 @@ export function PatternPanel() {
               onClick={() => update((d) => applyPreset(d, preset))}
             >
               <img src={src} alt="" draggable={false} />
-              {preset.name}
+              <OverflowText text={preset.name} />
             </button>
           ))}
         </div>

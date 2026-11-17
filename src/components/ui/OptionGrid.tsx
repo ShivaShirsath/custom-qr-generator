@@ -1,5 +1,7 @@
 import type { CSSProperties, ReactNode } from 'react';
 
+import { OverflowText } from '@/components/text';
+
 import styles from './Choice.module.css';
 import { handleRadioKeys } from './radio-keys';
 
@@ -53,7 +55,7 @@ export function OptionGrid<T extends string>({
               o.preview
             )}
           </span>
-          <span className={styles.tileLabel}>{o.label}</span>
+          <OverflowText className={styles.tileLabel} text={o.label} />
         </button>
       ))}
     </div>

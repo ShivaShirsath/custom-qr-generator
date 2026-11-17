@@ -20,6 +20,7 @@ export function Button({
   icon,
   block = false,
   tone,
+  title,
   className,
   children,
   type = 'button',
@@ -29,6 +30,7 @@ export function Button({
     <button
       type={type}
       data-tone={tone}
+      data-tip={title}
       className={cx(
         styles.button,
         styles[variant],

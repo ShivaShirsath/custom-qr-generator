@@ -2,6 +2,7 @@ import { ImagePlus, Trash2 } from 'lucide-react';
 import { useMemo, useRef, useState, type DragEvent } from 'react';
 
 import { useToast } from '@/components/feedback';
+import { OverflowText } from '@/components/text';
 import { badgeGlyphColor } from '@/components/illustrations';
 import { LOGO_SHAPES, type QrDesign } from '@/core/qr';
 import {
@@ -138,9 +139,10 @@ export function LogoPanel() {
           {logo.src && (
             <div className={styles.current}>
               <img src={logo.src} alt="Current logo" />
-              <span className={styles.currentText}>
-                {selection.kind === 'upload' ? selection.name : (preset?.label ?? 'Logo')}
-              </span>
+              <OverflowText
+                className={styles.currentText}
+                text={selection.kind === 'upload' ? selection.name : (preset?.label ?? 'Logo')}
+              />
               <Button
                 size="sm"
                 variant="ghost"

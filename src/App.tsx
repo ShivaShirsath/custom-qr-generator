@@ -5,7 +5,7 @@ import { useShortcuts } from '@/app/useShortcuts';
 import { GithubIcon } from '@/app/GithubIcon';
 import styles from '@/app/App.module.css';
 import { ThemeToggle } from '@/app/ThemeToggle';
-import { ToastProvider } from '@/components/feedback';
+import { ToastProvider, TooltipLayer } from '@/components/feedback';
 import { QrBuddy } from '@/components/illustrations';
 import { Button } from '@/components/ui';
 import { REPO_URL } from '@/config';
@@ -40,6 +40,7 @@ function Shell() {
   useSmartStyle();
   return (
     <>
+      <TooltipLayer />
       <div className={styles.backdrop} aria-hidden="true">
         <span className={styles.blob} />
         <span className={styles.blob} />
