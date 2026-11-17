@@ -1,58 +1,55 @@
 .button {
+  --surface: var(--neutral);
+  --tint: var(--neutral-tint);
+  --tint-deep: var(--neutral-deep);
+
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: var(--space-2);
-  min-height: 40px;
-  padding: 0 var(--space-4);
+  min-height: 44px;
+  padding: 0 var(--space-5);
   border: 0;
-  border-radius: var(--radius-md);
-  font-weight: 650;
+  border-radius: var(--radius-pill);
+  color: var(--on-tone);
+  font-weight: 800;
   font-size: var(--text-sm);
-  letter-spacing: 0.01em;
   white-space: nowrap;
   text-decoration: none;
   user-select: none;
   transition:
-    box-shadow var(--duration) var(--ease),
+    box-shadow var(--duration) var(--ease-out),
     transform var(--duration) var(--ease),
-    background-color var(--duration) var(--ease),
-    color var(--duration) var(--ease),
-    opacity var(--duration) var(--ease);
+    filter var(--duration) var(--ease-out),
+    opacity var(--duration) var(--ease-out);
 }
 
 .button:disabled {
   opacity: 0.5;
 }
 
-.button:not(:disabled):active {
-  transform: translateY(1px) scale(0.98);
-}
-
-.clay {
-  color: var(--text);
-  background: var(--clay-bg);
-  box-shadow: var(--clay-shadow);
-}
-
-.clay:not(:disabled):hover {
-  background: var(--clay-bg-hover);
-  transform: translateY(-1px);
-}
-
-.clay:not(:disabled):active {
-  box-shadow: var(--clay-shadow-pressed);
-}
-
+.clay,
 .primary {
-  color: #2a1700;
-  background: linear-gradient(135deg, #f7b334 0%, var(--primary) 55%, #d9700a 100%);
-  box-shadow: var(--clay-shadow-primary);
+  background: rgb(var(--surface));
+  box-shadow: var(--clay);
 }
 
+.clay:not(:disabled):hover,
 .primary:not(:disabled):hover {
-  transform: translateY(-1px);
-  filter: saturate(115%) brightness(1.04);
+  transform: translateY(-2px);
+  filter: brightness(1.03);
+}
+
+.clay:not(:disabled):active,
+.primary:not(:disabled):active {
+  transform: translateY(1px) scale(0.98);
+  box-shadow: var(--clay-pressed);
+}
+
+.primary:not([data-tone]) {
+  --surface: var(--mint);
+  --tint: var(--mint-tint);
+  --tint-deep: var(--mint-deep);
 }
 
 .ghost {
@@ -66,16 +63,14 @@
 }
 
 .sm {
-  min-height: 34px;
-  padding: 0 var(--space-3);
-  border-radius: var(--radius-sm);
+  min-height: 36px;
+  padding: 0 var(--space-4);
   font-size: var(--text-xs);
 }
 
 .lg {
-  min-height: 50px;
+  min-height: 56px;
   padding: 0 var(--space-6);
-  border-radius: var(--radius-lg);
   font-size: var(--text-md);
 }
 

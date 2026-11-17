@@ -1,4 +1,4 @@
-import '@fontsource-variable/plus-jakarta-sans';
+import '@fontsource-variable/nunito';
 import './styles/global.css';
 
 import { StrictMode } from 'react';

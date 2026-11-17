@@ -1,10 +1,15 @@
+/* Bottom-nav style tab bar: white clay tray, active tab in sky clay. */
 .list {
+  --surface: var(--neutral);
+  --tint: var(--neutral-tint);
+  --tint-deep: var(--neutral-deep);
+
   display: flex;
   gap: 6px;
-  padding: 6px;
+  padding: 8px;
   border-radius: var(--radius-lg);
-  background: color-mix(in srgb, var(--text) 5%, transparent);
-  box-shadow: inset 2px 2px 8px rgba(70, 45, 0, 0.08);
+  background: rgb(var(--surface));
+  box-shadow: var(--clay);
   overflow-x: auto;
   scrollbar-width: none;
 }
@@ -14,24 +19,29 @@
 }
 
 .tab {
+  --surface: var(--sky);
+  --tint: var(--sky-tint);
+  --tint-deep: var(--sky-deep);
+
   flex: 1 0 auto;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  min-height: 44px;
+  min-height: 50px;
   padding: 0 16px;
   border: 0;
   border-radius: var(--radius-md);
   background: transparent;
-  color: var(--text-muted);
-  font-weight: 700;
+  color: var(--text-subtle);
+  font-weight: 800;
   font-size: var(--text-sm);
   white-space: nowrap;
   transition:
-    background-color var(--duration) var(--ease),
-    color var(--duration) var(--ease),
-    box-shadow var(--duration) var(--ease);
+    background-color var(--duration) var(--ease-out),
+    color var(--duration) var(--ease-out),
+    box-shadow var(--duration) var(--ease-out),
+    transform var(--duration) var(--ease);
 }
 
 .tab:hover {
@@ -39,27 +49,23 @@
 }
 
 .tab[aria-selected='true'] {
-  color: var(--primary-strong);
-  background: var(--clay-bg-hover);
-  box-shadow: var(--clay-shadow);
-}
-
-:global([data-theme='dark']) .tab[aria-selected='true'] {
-  color: var(--text);
+  color: var(--on-tone);
+  background: rgb(var(--surface));
+  box-shadow: var(--clay-sm);
 }
 
 @media (max-width: 560px) {
   .list {
     gap: 2px;
-    padding: 4px;
+    padding: 5px;
   }
 
   .tab {
     flex: 1 1 0;
     flex-direction: column;
     gap: 2px;
-    min-height: 52px;
+    min-height: 58px;
     padding: 0 4px;
-    font-size: 0.6875rem;
+    font-size: 0.7rem;
   }
 }

@@ -10,9 +10,9 @@ export const solid = (color: string): Paint => ({
 export const DEFAULT_DESIGN: QrDesign = {
   errorCorrection: 'M',
   margin: 4,
-  dots: { style: 'rounded', scale: 1, paint: solid('#1f3d14') },
-  eyeFrame: { style: 'extra-rounded', inherit: true, paint: solid('#1f3d14') },
-  eyeBall: { style: 'rounded', inherit: true, paint: solid('#1f3d14') },
+  dots: { style: 'rounded', scale: 1, paint: solid('#2b2966') },
+  eyeFrame: { style: 'extra-rounded', inherit: true, paint: solid('#2b2966') },
+  eyeBall: { style: 'rounded', inherit: true, paint: solid('#2b2966') },
   background: { transparent: false, paint: solid('#ffffff'), radius: 0 },
   logo: {
     src: null,
@@ -22,5 +22,5 @@ export const DEFAULT_DESIGN: QrDesign = {
     background: '#ffffff',
     excavate: true,
   },
-  frame: { style: 'none', text: 'SCAN ME', color: '#1f3d14', textColor: '#ffffff' },
+  frame: { style: 'none', text: 'SCAN ME', color: '#2b2966', textColor: '#ffffff' },
 };

@@ -16,6 +16,7 @@ body {
   min-height: 100dvh;
   font-family: var(--font-sans);
   font-size: var(--text-md);
+  font-weight: 500;
   line-height: 1.5;
   color: var(--text);
   background: var(--bg);
@@ -67,7 +68,67 @@ a {
   background: color-mix(in srgb, var(--primary) 30%, transparent);
 }
 
-/* Glass: frosted translucent panels. */
+/*
+ * Clay shadow recipes. Declared on every element so `--tint`, `--tint-deep` and
+ * `--surface` resolve against the element itself (see tokens.css).
+ */
+* {
+  --clay:
+    0 16px 26px -14px rgb(var(--tint) / 0.75), 0 4px 10px -4px rgb(var(--tint) / 0.3),
+    inset 0 -7px 12px -4px rgb(var(--tint-deep) / var(--shade)),
+    inset 0 7px 12px -4px rgb(255 255 255 / var(--highlight));
+  --clay-sm:
+    0 10px 16px -10px rgb(var(--tint) / 0.75), 0 2px 5px -2px rgb(var(--tint) / 0.25),
+    inset 0 -4px 7px -2px rgb(var(--tint-deep) / var(--shade)),
+    inset 0 4px 7px -2px rgb(255 255 255 / var(--highlight));
+  --clay-pressed:
+    inset 0 5px 10px -3px rgb(var(--tint-deep) / calc(var(--shade) + 0.05)),
+    inset 0 -3px 6px -2px rgb(255 255 255 / var(--highlight));
+}
+
+/* Pastel tones for clay surfaces. */
+[data-tone='lavender'] {
+  --surface: var(--lavender);
+  --tint: var(--lavender-tint);
+  --tint-deep: var(--lavender-deep);
+}
+[data-tone='mint'] {
+  --surface: var(--mint);
+  --tint: var(--mint-tint);
+  --tint-deep: var(--mint-deep);
+}
+[data-tone='coral'] {
+  --surface: var(--coral);
+  --tint: var(--coral-tint);
+  --tint-deep: var(--coral-deep);
+}
+[data-tone='peach'] {
+  --surface: var(--peach);
+  --tint: var(--peach-tint);
+  --tint-deep: var(--peach-deep);
+}
+[data-tone='butter'] {
+  --surface: var(--butter);
+  --tint: var(--butter-tint);
+  --tint-deep: var(--butter-deep);
+}
+[data-tone='sky'] {
+  --surface: var(--sky);
+  --tint: var(--sky-tint);
+  --tint-deep: var(--sky-deep);
+}
+[data-tone='pink'] {
+  --surface: var(--pink);
+  --tint: var(--pink-tint);
+  --tint-deep: var(--pink-deep);
+}
+[data-tone='neutral'] {
+  --surface: var(--neutral);
+  --tint: var(--neutral-tint);
+  --tint-deep: var(--neutral-deep);
+}
+
+/* Glass: frosted translucent containers. */
 .glass {
   position: relative;
   background: var(--glass-bg);
@@ -80,16 +141,12 @@ a {
   backdrop-filter: blur(var(--glass-blur)) saturate(160%);
 }
 
-/* Clay: soft, puffy, tactile controls. */
+/* Clay: puffy, glossy, tactile surfaces. Pair with data-tone for colour. */
 .clay {
-  background: var(--clay-bg);
+  background: rgb(var(--surface));
   border: 0;
-  border-radius: var(--radius-md);
-  box-shadow: var(--clay-shadow);
-  transition:
-    box-shadow var(--duration) var(--ease),
-    transform var(--duration) var(--ease),
-    background-color var(--duration) var(--ease);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--clay);
 }
 
 .visually-hidden {

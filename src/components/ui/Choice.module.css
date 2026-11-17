@@ -1,33 +1,43 @@
-/* Segmented control */
+/* Segmented control: white clay tray with a sky-blue active pill. */
 .segmented {
+  --surface: var(--neutral);
+  --tint: var(--neutral-tint);
+  --tint-deep: var(--neutral-deep);
+
   display: flex;
-  gap: 4px;
-  padding: 4px;
-  border-radius: var(--radius-md);
-  background: color-mix(in srgb, var(--text) 6%, transparent);
-  box-shadow: inset 2px 2px 6px rgba(70, 45, 0, 0.08);
+  gap: 6px;
+  padding: 6px;
+  border-radius: var(--radius-pill);
+  background: rgb(var(--surface));
+  box-shadow: var(--clay-sm);
   overflow-x: auto;
+  scrollbar-width: none;
 }
 
 .segment {
+  --surface: var(--sky);
+  --tint: var(--sky-tint);
+  --tint-deep: var(--sky-deep);
+
   flex: 1 0 auto;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 6px;
-  min-height: 34px;
-  padding: 0 12px;
+  min-height: 38px;
+  padding: 0 14px;
   border: 0;
-  border-radius: 10px;
+  border-radius: var(--radius-pill);
   background: transparent;
   color: var(--text-muted);
   font-size: var(--text-sm);
-  font-weight: 650;
+  font-weight: 800;
   white-space: nowrap;
   transition:
-    background-color var(--duration) var(--ease),
-    color var(--duration) var(--ease),
-    box-shadow var(--duration) var(--ease);
+    background-color var(--duration) var(--ease-out),
+    color var(--duration) var(--ease-out),
+    box-shadow var(--duration) var(--ease-out),
+    transform var(--duration) var(--ease);
 }
 
 .segment:hover {
@@ -35,9 +45,9 @@
 }
 
 .segment[aria-checked='true'] {
-  color: var(--text);
-  background: var(--clay-bg-hover);
-  box-shadow: var(--clay-shadow);
+  color: var(--on-tone);
+  background: rgb(var(--surface));
+  box-shadow: var(--clay-sm);
 }
 
 .segment:disabled {
@@ -47,39 +57,44 @@
 /* Tile grid */
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(var(--tile-min, 78px), 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(var(--tile-min, 84px), 1fr));
   gap: var(--space-3);
 }
 
 .tile {
+  --surface: var(--neutral);
+  --tint: var(--neutral-tint);
+  --tint-deep: var(--neutral-deep);
+
   display: grid;
   justify-items: center;
-  gap: 6px;
-  padding: 10px 6px 8px;
-  border: 2px solid transparent;
+  gap: 8px;
+  padding: 12px 6px 10px;
+  border: 0;
   border-radius: var(--radius-md);
-  background: var(--clay-bg);
-  box-shadow: var(--clay-shadow);
+  background: rgb(var(--surface));
+  box-shadow: var(--clay-sm);
   color: var(--text-muted);
   font-size: var(--text-xs);
-  font-weight: 650;
+  font-weight: 800;
   text-align: center;
   transition:
     transform var(--duration) var(--ease),
-    border-color var(--duration) var(--ease),
-    background-color var(--duration) var(--ease);
+    background-color var(--duration) var(--ease-out),
+    color var(--duration) var(--ease-out);
 }
 
 .tile:hover {
-  transform: translateY(-2px);
+  transform: translateY(-3px);
   color: var(--text);
-  background: var(--clay-bg-hover);
 }
 
 .tile[aria-checked='true'] {
-  border-color: var(--primary);
-  color: var(--text);
-  background: var(--clay-bg-hover);
+  --surface: var(--lavender);
+  --tint: var(--lavender-tint);
+  --tint-deep: var(--lavender-deep);
+
+  color: var(--on-tone);
 }
 
 .preview {
@@ -87,8 +102,8 @@
   place-items: center;
   width: 100%;
   aspect-ratio: 1;
-  max-width: 58px;
-  color: var(--text);
+  max-width: 54px;
+  color: var(--ink);
 }
 
 .preview img {

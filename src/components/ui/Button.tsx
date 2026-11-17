@@ -1,6 +1,7 @@
 import type { ButtonHTMLAttributes, ReactNode } from 'react';
 
 import { cx } from '@/lib/cx';
+import type { Tone } from '@/lib/tone';
 
 import styles from './Button.module.css';
 
@@ -9,6 +10,8 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   size?: 'sm' | 'md' | 'lg';
   icon?: ReactNode;
   block?: boolean;
+  /** Pastel clay colour; defaults to white for `clay` and mint for `primary`. */
+  tone?: Tone;
 }
 
 export function Button({
@@ -16,6 +19,7 @@ export function Button({
   size = 'md',
   icon,
   block = false,
+  tone,
   className,
   children,
   type = 'button',
@@ -24,6 +28,7 @@ export function Button({
   return (
     <button
       type={type}
+      data-tone={tone}
       className={cx(
         styles.button,
         styles[variant],
