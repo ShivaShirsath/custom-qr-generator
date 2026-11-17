@@ -4,7 +4,7 @@
   padding: 6px;
   border-radius: var(--radius-lg);
   background: color-mix(in srgb, var(--text) 5%, transparent);
-  box-shadow: inset 2px 2px 8px rgba(20, 10, 80, 0.08);
+  box-shadow: inset 2px 2px 8px rgba(70, 45, 0, 0.08);
   overflow-x: auto;
   scrollbar-width: none;
 }

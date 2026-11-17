@@ -9,7 +9,8 @@ import styles from './Presets.module.css';
 
 const PALETTES: ReadonlyArray<readonly [fg: string, bg: string]> = [
   ['#000000', '#ffffff'],
-  ['#1e1b4b', '#f4f1ff'],
+  ['#1f3d14', '#fbf7ec'],
+  ['#b45309', '#fffbeb'],
   ['#0f766e', '#f0fdfa'],
   ['#1d4ed8', '#eff6ff'],
   ['#9f1239', '#fff1f2'],

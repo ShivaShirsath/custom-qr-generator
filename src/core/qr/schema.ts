@@ -15,7 +15,7 @@ import {
   type QrDesign,
 } from './types';
 
-const hex = z.string().refine(isHexColor, 'Expected a hex colour like #1e1b4b');
+const hex = z.string().refine(isHexColor, 'Expected a hex colour like #1f3d14');
 
 export const paintSchema = z.object({
   type: z.enum(PAINT_TYPES),

@@ -10,7 +10,7 @@
   place-items: center;
   padding: var(--space-5);
   border-radius: var(--radius-lg);
-  box-shadow: inset 3px 3px 10px rgba(20, 10, 80, 0.12);
+  box-shadow: inset 3px 3px 10px rgba(70, 45, 0, 0.12);
   overflow: hidden;
 }
 
@@ -18,7 +18,7 @@
   width: 100%;
   max-width: 340px;
   height: auto;
-  filter: drop-shadow(0 12px 22px rgba(40, 20, 120, 0.18));
+  filter: drop-shadow(0 12px 22px rgba(110, 70, 0, 0.18));
   transition: opacity var(--duration) var(--ease);
 }
 

@@ -92,7 +92,7 @@ const iconPreset = (id: string, label: string, body: string): LogoPreset => ({
   id: `icon:${id}`,
   label,
   group: 'icon',
-  defaultColor: '#7c5cff',
+  defaultColor: '#e8890c',
   toSvg: (color) =>
     `${SVG_OPEN}<g fill="none" stroke="${color}" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">${body}</g></svg>`,
 });

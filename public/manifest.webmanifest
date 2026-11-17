@@ -4,7 +4,7 @@
   "description": "Free, open-source static QR code generator.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#f4f1ff",
-  "theme_color": "#7c5cff",
+  "background_color": "#fbf7ec",
+  "theme_color": "#e8890c",
   "icons": [{ "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }]
 }

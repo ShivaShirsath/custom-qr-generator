@@ -45,8 +45,8 @@
 }
 
 .primary {
-  color: #fff;
-  background: linear-gradient(135deg, var(--primary) 0%, #a35cff 55%, var(--accent) 120%);
+  color: #2a1700;
+  background: linear-gradient(135deg, #f7b334 0%, var(--primary) 55%, #d9700a 100%);
   box-shadow: var(--clay-shadow-primary);
 }
 

@@ -79,7 +79,7 @@
   width: 36px;
   height: 36px;
   border-radius: 11px;
-  box-shadow: 0 6px 14px rgba(124, 92, 255, 0.35);
+  box-shadow: 0 6px 14px rgba(232, 137, 12, 0.35);
 }
 
 .headerActions {
@@ -105,7 +105,7 @@
 }
 
 .gradientText {
-  background: linear-gradient(120deg, var(--primary) 10%, var(--accent) 60%, var(--accent-2));
+  background: linear-gradient(110deg, var(--primary) 15%, #e0b100 50%, var(--accent) 85%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
