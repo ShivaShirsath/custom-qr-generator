@@ -9,13 +9,15 @@
   padding: var(--space-8) var(--space-6) var(--space-6);
   border: 0;
   border-radius: var(--radius-xl);
-  background: rgb(var(--surface));
+  background: rgb(var(--surface) / var(--surface-alpha));
   box-shadow:
     var(--clay),
     0 40px 80px -30px rgb(0 0 0 / 0.5);
   color: var(--text);
   text-align: center;
   overflow: visible;
+  -webkit-backdrop-filter: blur(28px) saturate(170%);
+  backdrop-filter: blur(28px) saturate(170%);
 }
 
 .dialog[open] {
@@ -23,14 +25,14 @@
 }
 
 .dialog::backdrop {
-  background: rgb(43 41 102 / 0.28);
+  background: rgb(43 41 102 / var(--surface-alpha));
   -webkit-backdrop-filter: blur(8px) saturate(140%);
   backdrop-filter: blur(8px) saturate(140%);
   animation: backdrop-in 240ms var(--ease-out) both;
 }
 
 :global([data-theme='dark']) .dialog::backdrop {
-  background: rgb(5 4 16 / 0.6);
+  background: rgb(5 4 16 / var(--surface-alpha));
 }
 
 .art {
@@ -40,12 +42,12 @@
   height: 104px;
   margin: calc(-1 * var(--space-8) - 52px) auto var(--space-3);
   border-radius: 36px;
-  background: rgb(var(--surface));
+  background: rgb(var(--surface) / var(--surface-alpha));
   box-shadow: var(--clay);
 }
 
 .art[data-tone] {
-  background: rgb(var(--surface));
+  background: rgb(var(--surface) / var(--surface-alpha));
 }
 
 .title {

@@ -4,11 +4,13 @@
   max-width: min(260px, calc(100vw - 24px));
   padding: 6px 10px;
   border-radius: 10px;
-  background: #2b2966;
+  background: rgb(255 255 255 / var(--surface-alpha));
   box-shadow:
-    0 0 0 1px rgb(255 255 255 / 0.12),
-    0 8px 18px -6px rgb(0 0 0 / 0.4);
-  color: #ffffff;
+    0 0 0 1px var(--hairline),
+    0 8px 18px -6px rgb(0 0 0 / 0.3);
+  color: var(--text);
+  -webkit-backdrop-filter: blur(16px) saturate(170%);
+  backdrop-filter: blur(16px) saturate(170%);
   font-size: 0.75rem;
   font-weight: 800;
   line-height: 1.3;
@@ -23,8 +25,8 @@
 }
 
 :global([data-theme='dark']) .tip {
-  background: #f2efff;
-  color: #2b2966;
+  background: rgb(255 255 255 / var(--surface-alpha));
+  color: var(--text);
 }
 
 @keyframes tip-in {

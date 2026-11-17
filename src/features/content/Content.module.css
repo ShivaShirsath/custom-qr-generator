@@ -46,8 +46,10 @@
   --tint-deep: var(--lavender-deep);
 
   color: var(--on-tone);
-  box-shadow: var(--clay);
   background: rgb(var(--surface) / var(--selected-alpha));
+  box-shadow:
+    var(--clay-sm),
+    0 0 0 2px var(--primary);
 }
 
 .form {

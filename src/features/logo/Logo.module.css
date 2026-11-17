@@ -52,7 +52,7 @@
   height: 40px;
   padding: 4px;
   border-radius: 16px;
-  background: #fff;
+  background: rgb(255 255 255 / var(--surface-alpha));
   object-fit: contain;
   box-shadow: inset 0 2px 5px rgb(var(--neutral-deep) / 0.3);
 }
@@ -89,5 +89,5 @@
 :global([data-theme='dark']) .logoTile {
   padding: 4px;
   border-radius: 12px;
-  background: rgb(255 255 255 / 0.92);
+  background: rgb(255 255 255 / var(--surface-alpha));
 }

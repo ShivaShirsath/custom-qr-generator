@@ -20,10 +20,12 @@
   gap: var(--space-3);
   padding: 10px 10px 10px 12px;
   border-radius: var(--radius-lg);
-  background: rgb(var(--surface));
+  background: rgb(var(--surface) / var(--surface-alpha));
   box-shadow:
     var(--clay),
     0 24px 40px -20px rgb(0 0 0 / 0.35);
+  -webkit-backdrop-filter: blur(24px) saturate(170%);
+  backdrop-filter: blur(24px) saturate(170%);
   color: var(--on-tone);
   pointer-events: auto;
   animation: pop-in 420ms var(--ease) both;
@@ -40,12 +42,12 @@
   min-height: 44px;
   padding: 3px;
   border-radius: 16px;
-  background: rgb(255 255 255 / 0.55);
+  background: rgb(255 255 255 / var(--surface-alpha));
   box-shadow: var(--clay-pressed);
 }
 
 :global([data-theme='dark']) .icon {
-  background: rgb(0 0 0 / 0.15);
+  background: rgb(255 255 255 / var(--surface-alpha));
 }
 
 .text {
@@ -77,7 +79,7 @@
   padding: 0 14px;
   border: 0;
   border-radius: var(--radius-pill);
-  background: rgb(255 255 255 / 0.45);
+  background: rgb(255 255 255 / var(--surface-alpha));
   color: inherit;
   font-size: var(--text-xs);
   font-weight: 900;
@@ -88,7 +90,7 @@
 
 .action:hover {
   transform: translateY(-1px);
-  background: rgb(255 255 255 / 0.7);
+  background: rgb(255 255 255 / var(--surface-alpha));
 }
 
 .actionPrimary {
@@ -96,21 +98,21 @@
   --tint: var(--neutral-tint);
   --tint-deep: var(--neutral-deep);
 
-  background: rgb(var(--surface));
+  background: rgb(var(--surface) / var(--surface-alpha));
   box-shadow: var(--clay-sm);
   color: var(--text);
 }
 
 .actionPrimary:hover {
-  background: rgb(var(--surface));
+  background: rgb(var(--surface) / var(--surface-alpha));
 }
 
 :global([data-theme='dark']) .action {
-  background: rgb(0 0 0 / 0.2);
+  background: rgb(255 255 255 / var(--surface-alpha));
 }
 
 :global([data-theme='dark']) .actionPrimary {
-  background: rgb(var(--surface));
+  background: rgb(var(--surface) / var(--surface-alpha));
 }
 
 .close {
@@ -131,7 +133,7 @@
 
 .close:hover {
   opacity: 1;
-  background: rgb(255 255 255 / 0.4);
+  background: rgb(255 255 255 / var(--surface-alpha));
 }
 
 @keyframes pop-in {

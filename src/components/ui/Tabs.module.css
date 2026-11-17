@@ -51,7 +51,9 @@
 .tab[aria-selected='true'] {
   color: var(--on-tone);
   background: rgb(var(--surface) / var(--selected-alpha));
-  box-shadow: var(--clay-sm);
+  box-shadow:
+    var(--clay-sm),
+    0 0 0 2px var(--primary);
 }
 
 /* Compact tabs whenever the editor itself is narrow (tablets, phones). */

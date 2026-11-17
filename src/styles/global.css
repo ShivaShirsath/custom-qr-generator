@@ -64,6 +64,13 @@ a {
   box-shadow: var(--focus-ring);
 }
 
+/* On the bright animated background, light text needs a soft dark edge to stay legible. */
+:root[data-theme='dark'] body {
+  text-shadow:
+    0 1px 2px rgb(0 0 0 / 0.55),
+    0 0 10px rgb(0 0 0 / 0.25);
+}
+
 ::selection {
   background: color-mix(in srgb, var(--primary) 30%, transparent);
 }
@@ -149,7 +156,7 @@ a {
 
 /* Clay: puffy, glossy, tactile surfaces. Pair with data-tone for colour. */
 .clay {
-  background: rgb(var(--surface));
+  background: rgb(var(--surface) / var(--surface-alpha));
   border: 0;
   border-radius: var(--radius-lg);
   box-shadow: var(--clay);

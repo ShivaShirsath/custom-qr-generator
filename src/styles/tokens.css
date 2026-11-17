@@ -58,7 +58,7 @@
   --on-tone: #2b2966;
   --primary: #8b6cf0;
   --primary-strong: #6c4fd8;
-  --primary-soft: rgb(var(--lavender) / 0.45);
+  --primary-soft: rgb(var(--lavender) / 0.1);
   --accent: #f08a78;
   --accent-2: #5cc79a;
   --good: #23885d;
@@ -70,13 +70,6 @@
 
   /* Page & text */
   --bg: #f6f4fd;
-  --bg-blob-1: #d9cbfb;
-  --bg-blob-2: #c6f0dd;
-  --bg-blob-3: #ffe0cf;
-  /* Slowly panning page gradient. */
-  --bg-flow: linear-gradient(120deg, #ff9a6b, #ffd166, #4fdc9e, #63a8ff, #a77bff, #ff8fc4);
-  /* Dark mode reuses the same colours under a veil. */
-  --bg-scrim: transparent;
   --text: #2b2966;
   --text-muted: #3d3a72;
   --text-subtle: #4f4c86;
@@ -88,12 +81,14 @@
   --glass-highlight: rgba(255, 255, 255, 0.95);
   --glass-shadow: 0 24px 60px -28px rgba(110, 90, 200, 0.45), 0 2px 6px rgba(110, 90, 200, 0.06);
   --glass-blur: 28px;
+  /* Every surface (panels, tiles, buttons, popups) uses this background opacity. */
+  --surface-alpha: 0.1;
   /* Sticky header/footer need to hide content scrolling underneath. */
   --chrome-bg: rgba(255, 255, 255, 0.1);
   /* Translucency of clay tiles, trays and fields so the background glows through. */
-  --tile-alpha: 0.1;
+  --tile-alpha: var(--surface-alpha);
   /* Selected tiles, tabs and toggles stay clearly tinted. */
-  --selected-alpha: 0.6;
+  --selected-alpha: var(--surface-alpha);
 
   /* Fields */
   --input-bg: rgba(255, 255, 255, 0.1);
@@ -163,10 +158,10 @@
   --hairline: rgba(255, 255, 255, 0.09);
 
   --ink: #f2efff;
-  --on-tone: #f6f3ff;
+  --on-tone: #ffffff;
   --primary: #b7a3ff;
   --primary-strong: #cdbfff;
-  --primary-soft: rgb(var(--lavender) / 0.6);
+  --primary-soft: rgb(var(--lavender) / 0.1);
   --accent: #ff9f8f;
   --accent-2: #7fe0b6;
   --good: #8ff0c4;
@@ -177,24 +172,20 @@
   --bad-soft: rgb(var(--coral));
 
   --bg: #13112a;
-  --bg-blob-1: #3d2f86;
-  --bg-blob-2: #155a46;
-  --bg-blob-3: #6b3a2a;
-  --bg-scrim: rgba(12, 10, 32, 0.62);
-  --text: #f2efff;
-  --text-muted: #b6b1df;
-  --text-subtle: #8580b3;
+  --text: #ffffff;
+  --text-muted: rgba(255, 255, 255, 0.94);
+  --text-subtle: rgba(255, 255, 255, 0.86);
   --border: rgba(242, 239, 255, 0.08);
 
-  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-bg: rgba(255, 255, 255, 0.1);
   --glass-border: rgba(255, 255, 255, 0.08);
   --glass-highlight: rgba(255, 255, 255, 0.1);
   --glass-shadow: 0 28px 60px -28px rgba(0, 0, 0, 0.8), 0 2px 8px rgba(0, 0, 0, 0.25);
-  --chrome-bg: rgba(255, 255, 255, 0.05);
-  --tile-alpha: 0.1;
-  --selected-alpha: 0.6;
+  --chrome-bg: rgba(255, 255, 255, 0.1);
+  --tile-alpha: var(--surface-alpha);
+  --selected-alpha: var(--surface-alpha);
 
-  --input-bg: rgba(255, 255, 255, 0.05);
+  --input-bg: rgba(255, 255, 255, 0.1);
   --input-border: rgba(242, 239, 255, 0.14);
   --focus-ring: 0 0 0 4px rgba(183, 163, 255, 0.45);
   --checker-a: #2a2750;

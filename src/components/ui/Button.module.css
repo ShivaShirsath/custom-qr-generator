@@ -32,7 +32,7 @@
 
 .clay,
 .primary {
-  background: rgb(var(--surface));
+  background: rgb(var(--surface) / var(--surface-alpha));
   box-shadow: var(--clay);
 }
 
@@ -52,6 +52,12 @@
 .primary:not(:disabled):active {
   transform: translateY(1px) scale(0.98);
   box-shadow: var(--clay-pressed);
+}
+
+.primary {
+  box-shadow:
+    var(--clay),
+    0 0 0 2px rgb(var(--tint-deep) / 0.8);
 }
 
 .primary:not([data-tone]) {
