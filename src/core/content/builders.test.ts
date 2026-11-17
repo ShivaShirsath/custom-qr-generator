@@ -3,6 +3,11 @@ import { describe, expect, it } from 'vitest';
 import { buildPayload, escapeWifi, normalizeUrl, toICalDate } from './builders';
 import { DEFAULT_VALUES } from './defaults';
 
+/** A contact with every field blank, so tests set only what they check. */
+const BLANK_VCARD = Object.fromEntries(
+  Object.keys(DEFAULT_VALUES.vcard).map((k) => [k, '']),
+) as typeof DEFAULT_VALUES.vcard;
+
 describe('content builders', () => {
   it('normalises links without a scheme', () => {
     expect(normalizeUrl('example.com/a')).toBe('https://example.com/a');
@@ -49,7 +54,7 @@ describe('content builders', () => {
 
   it('builds a vCard 3.0', () => {
     const r = buildPayload('vcard', {
-      ...DEFAULT_VALUES.vcard,
+      ...BLANK_VCARD,
       firstName: 'Asha',
       lastName: 'Rao',
       organization: 'Acme, Inc.',

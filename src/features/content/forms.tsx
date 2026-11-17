@@ -2,6 +2,7 @@ import { LocateFixed } from 'lucide-react';
 
 import {
   CRYPTO_COINS,
+  DEFAULT_VALUES,
   WIFI_ENCRYPTIONS,
   type ContentType,
   type ContentValues,
@@ -266,8 +267,12 @@ export function EventForm({ values, onChange }: FormProps<'event'>) {
 }
 
 export function LocationForm({ values, onChange }: FormProps<'location'>) {
-  const empty = !values.latitude.trim() && !values.longitude.trim();
-  const { supported, requestCurrent } = useLocationOffer(empty, (coords) => onChange(coords));
+  // Offer the device location while the fields are empty or still show the demo place.
+  const replaceable =
+    (!values.latitude.trim() && !values.longitude.trim()) ||
+    (values.latitude === DEFAULT_VALUES.location.latitude &&
+      values.longitude === DEFAULT_VALUES.location.longitude);
+  const { supported, requestCurrent } = useLocationOffer(replaceable, (coords) => onChange(coords));
   return (
     <>
       {supported && (
