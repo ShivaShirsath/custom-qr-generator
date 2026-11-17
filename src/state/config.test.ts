@@ -44,7 +44,7 @@ describe('default configuration', () => {
     expect(design.dots.paint).toMatchObject({ type: 'linear', rotation: 45 });
     expect(design.background.transparent).toBe(true);
     expect(logo).toEqual({ kind: 'preset', id: 'icon:link', color: null });
-    expect(design.logo).toMatchObject({ size: 0.35, padding: 0, shape: 'none', excavate: true });
+    expect(design.logo).toMatchObject(LOGO_PLACEMENT);
     expect(DEFAULT_CONFIG.flatBrands).toBe(true);
   });
 
